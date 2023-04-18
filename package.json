@@ -1,0 +1,12 @@
+{
+  "name": "cantera-sound-backend",
+  "version": "1.0.0",
+  "description": "Actualizacion 1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Abril Gonzalez <abril.gonzalez.cantera@gmail.com>",
+  "license": "ISC"
+}
