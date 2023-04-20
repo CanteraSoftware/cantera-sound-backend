@@ -1,6 +1,3 @@
-#Carpetas
-/node_modules
-
-#Archivos
-
+node_modules/
+postgres_data/
 .env
