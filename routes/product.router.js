@@ -49,6 +49,21 @@ router.post('/',
   }
 )
 
+router.post('/file',
+  validatorHandler(createProductSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      // Create new product
+      const newProduct = await service.create(body)
+      // Set status "created" in JSON
+      res.status(201).json(newProduct);
+    } catch (error) {
+      next(error)
+    }
+  }
+)
+
 router.patch('/:id',
   validatorHandler(getProductSchema, 'params'),
   validatorHandler(updateProductSchema, 'body'),
