@@ -40,8 +40,4 @@ class Author extends Model {
   }
 }
 
-<<<<<<< HEAD
-module.exports = { AUTHOR_TABLE, AuthorSchema, Author }
-=======
 module.exports = { AUTHOR_TABLE, AuthorSchema, Author };
->>>>>>> 6845bf6beeca937f582b745702487c457386a112
