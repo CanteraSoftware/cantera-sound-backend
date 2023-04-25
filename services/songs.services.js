@@ -2,24 +2,24 @@ const boom = require('@hapi/boom');
 
 const { models } = require('../libs/sequelize');
 
-class ProductServices {
+class SongsServices {
   // Create new product
   async create(data) {
-    const newProduct = await models.Product.create({
+    const newSongs = await models.Songs.create({
       ...data,
     })
-    return newProduct;
+    return newSongs;
   }
 
   // Find all products
   async find() {
-    const products = await models.Product.findAll();
+    const products = await models.Songs.findAll();
     return products;
   }
 
   // Find product by ID
   async findOne(id) {
-    const product = await models.Product.findByPk(id)
+    const product = await models.Songs.findByPk(id)
     return product;
   }
 
@@ -39,4 +39,4 @@ class ProductServices {
   }
 }
 
-module.exports = ProductServices;
+module.exports = SongsServices;
