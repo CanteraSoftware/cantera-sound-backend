@@ -1,21 +1,21 @@
 const { Model, DataTypes } = require('sequelize');
 
-const GENERES_AUDIOBOOKS_TABLE = 'categories'
+const GENERES_AUDIOBOOKS_TABLE = 'generes-audiobooks'
 
-const CategoriesSchema = {
+const GeneresAudioBooksSchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  nameCategory: {
+  nameGenere: {
     type: DataTypes.STRING,
     allowNull: false,
   }
 }
 
-class Categories extends Model {
+class GeneresAudioBooks extends Model {
   static associate(models) {
     //
   }
@@ -23,10 +23,10 @@ class Categories extends Model {
     return {
       sequelize,
       tableName: GENERES_AUDIOBOOKS_TABLE,
-      modelName: 'Categories',
+      modelName: 'GeneresAudioBooks',
       timestamps: false
     }
   }
 }
 
-module.exports = { GENERES_AUDIOBOOKS_TABLE, CategoriesSchema, Categories }
+module.exports = { GENERES_AUDIOBOOKS_TABLE, GeneresAudioBooksSchema, GeneresAudioBooks };

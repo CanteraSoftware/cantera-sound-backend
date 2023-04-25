@@ -1,8 +1,8 @@
 const { Model, DataTypes } = require('sequelize');
 
-const GENDER_PODCAST_TABLE = 'genderpodcast'
+const GENERES_PODCAST_TABLE = 'generes-podcast'
 
-const GenderPodcastSchema = {
+const GeneresPodcastSchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -15,18 +15,18 @@ const GenderPodcastSchema = {
   }
 }
 
-class GenderPodcast extends Model {
+class GeneresPodcast extends Model {
   static associate(models) {
     //
   }
   static config(sequelize) {
     return {
       sequelize,
-      tableName: GENDER_PODCAST_TABLE,
-      modelName: 'GenderPodcast',
+      tableName: GENERES_PODCAST_TABLE,
+      modelName: 'GeneresPodcast',
       timestamps: false
     }
   }
 }
 
-module.exports = { GENDER_PODCAST_TABLE, GenderPodcastSchema, GenderPodcast };   
+module.exports = { GENERES_PODCAST_TABLE, GeneresPodcastSchema, GeneresPodcast };   

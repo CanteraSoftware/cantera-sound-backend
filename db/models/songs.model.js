@@ -1,5 +1,8 @@
 const { Model, DataTypes } = require('sequelize');
 
+const { GENERES_SONGS_TABLE } = require('./generesPodcast.model');
+const { AUTHOR_TABLE } = require('./author.model');
+
 const SONG_TABLE = 'songs'
 
 const SongsSchema = {
@@ -29,7 +32,7 @@ const SongsSchema = {
     allowNull: false,
     type: DataTypes.INTEGER,
     references: {
-      model: GENERO_TABLE,
+      model: GENERES_SONGS_TABLE,
       key: 'id'
     },
     onUpdate: 'CASCADE',

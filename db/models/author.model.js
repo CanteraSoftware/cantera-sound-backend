@@ -1,5 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 
+const { CATEGORIES_TABLE } = require('./categories.model');
+
 const AUTHOR_TABLE = 'author'
 
 const AuthorSchema = {

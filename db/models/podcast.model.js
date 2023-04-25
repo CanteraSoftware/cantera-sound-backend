@@ -1,5 +1,8 @@
 const { Model, DataTypes } = require('sequelize');
 
+const { GENERES_PODCAST_TABLE } = require('./generesPodcast.model');
+const { AUTHOR_TABLE } = require('./author.model');
+
 const PODCAST_TABLE = 'podcast'
 
 const PodcastSchema = {
@@ -24,6 +27,17 @@ const PodcastSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
   },
+  generoId: {
+    field: 'genero_id',
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    references: {
+      model: GENERES_PODCAST_TABLE,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
+  }
 }
 
 class Podcast extends Model {
