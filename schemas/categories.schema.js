@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const Joi = require('joi')
 
 // Validations
@@ -19,10 +20,24 @@ const createCategorySchema = Joi.object({
 const updateCategorySchema = Joi.object({
   name: name,
   image: image,
+=======
+const Joi = require('joi');
+
+const id = Joi.number().integer();
+const nameCategory = Joi.number().integer()
+
+const createCategorySchema = Joi.object({
+  nameCategory: nameCategory.required()
+>>>>>>> f568ff60ced14defbe4609c1e001f33b31720597
 })
 
 const getCategorySchema = Joi.object({
   id: id.required()
 })
 
+<<<<<<< HEAD
 module.exports = { createCategorySchema, updateCategorySchema, getCategorySchema }
+=======
+
+module.exports = { createCategorySchema, getCategorySchema }
+>>>>>>> f568ff60ced14defbe4609c1e001f33b31720597

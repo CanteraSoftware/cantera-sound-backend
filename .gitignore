@@ -1,8 +1,4 @@
-#Carpetas
-/node_modules
+node_modules/
+postgres_data/
 postgres_data
-
-#Archivos
-
 .env
-package-lock.json

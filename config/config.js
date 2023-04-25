@@ -10,7 +10,8 @@ const config = {
   bucketName: process.env.AWS_BUCKET_NAME,
   bucketRegion: process.env.AWS_BUCKET_REGION,
   publicKey: process.env.AWS_PUBLIC_KEY,
-  secretKey: process.env.AWS_SECRET_KEY
+  secretKey: process.env.AWS_SECRET_KEY,
+  apiKey: process.env.API_KEY
 }
 
 module.exports = { config };
