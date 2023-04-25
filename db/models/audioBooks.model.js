@@ -1,6 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 
 const { GENERES_AUDIOBOOKS_TABLE } = require('./generesAudioBooks.model');
+const { AUTHOR_TABLE } = require('./author.model');
 
 const AUDIOBOOKS_TABLE = 'audiobooks'
 

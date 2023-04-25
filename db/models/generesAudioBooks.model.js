@@ -9,7 +9,7 @@ const GeneresAudioBooksSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  nameGenere: {
+  nameGenere_audiobooks: {
     type: DataTypes.STRING,
     allowNull: false,
   }

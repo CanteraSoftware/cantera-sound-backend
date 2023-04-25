@@ -1,10 +1,10 @@
 const Joi = require('joi')
 
 const id = Joi.number().integer();
-const nameGenere = Joi.number().integer();
+const nameGenere_podcast = Joi.number().integer();
 
 const createGenereSchema = Joi.object({
-  nameGenere: nameGenere.required()
+  nameGenere_podcast: nameGenere_podcast.required()
 })
 
 const getGenereSchema = Joi.object({

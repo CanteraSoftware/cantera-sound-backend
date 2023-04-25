@@ -1,7 +1,7 @@
 'use strict';
 
 const { CATEGORIES_TABLE } = require('./../models/categories.model')
-const { GENERES_AUDIOBOOKS_TABLE } = require('../models/categoriess.model')
+const { GENERES_AUDIOBOOKS_TABLE } = require('../models/categories.model')
 const { GENERES_SONG_TABLE } = require('./../models/generesSong.model')
 const { GENERES_PODCAST_TABLE } = require('../models/generesPodcast.model')
 const { AUTHOR_TABLE } = require('./../models/author.model')
@@ -31,7 +31,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.DataTypes.INTEGER
       },
-      nameGenere: {
+      nameGenere_songs: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       }
@@ -43,7 +43,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.DataTypes.INTEGER
       },
-      nameGenere: {
+      nameGenere_podcast: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
@@ -55,7 +55,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.DataTypes.INTEGER
       },
-      nameGeneresAudioBooks: {
+      nameGenere_audiobooks: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       }

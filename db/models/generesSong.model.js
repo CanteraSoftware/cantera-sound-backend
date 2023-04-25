@@ -9,7 +9,7 @@ const GeneresSongSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  nameGenere: {
+  nameGenere_songs: {
     type: DataTypes.STRING,
     allowNull: false,
   }

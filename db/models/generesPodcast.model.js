@@ -9,7 +9,7 @@ const GeneresPodcastSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  nameGenere: {
+  nameGenere_podcast: {
     type: DataTypes.STRING,
     allowNull: false,
   }
