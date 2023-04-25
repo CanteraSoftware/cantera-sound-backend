@@ -1,2 +1,21 @@
 Instalamos 
 docker
+<<<<<<< HEAD
+=======
+
+## generar la migration
+ npm run migrations:generate product
+
+## correr en docker
+ docker-compose up -d postgres
+ docker-compose up -d pgadmin
+
+## ver que contenedor esta corriendo
+docker ps
+
+## inspeccionar 
+docker inspect ab912ffc58fd
+
+## genera el modelo en la base de datos segun la migracion que generaste
+ npm run migrations:run
+>>>>>>> 6845bf6beeca937f582b745702487c457386a112

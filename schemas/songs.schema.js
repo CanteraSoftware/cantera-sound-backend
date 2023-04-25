@@ -3,10 +3,11 @@ const Joi = require('joi')
 // Validations
 const id = Joi.number().integer();
 const nameSong = Joi.string().min(3).max(45);
-const authorId = Joi.number().integer();
-const generoId = Joi.number().integer();
-const song = Joi.string().uri();
-const image = Joi.string().uri();
+const authorId = Joi.number().integer(1);
+const generoId = Joi.number().integer(1);
+const song = Joi.string().uri()
+const image = Joi.string().uri()
+
 
 const createProductSchema = Joi.object({
   nameSong: nameSong.required(),

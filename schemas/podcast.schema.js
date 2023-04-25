@@ -1,16 +1,16 @@
-const Joi = require('joi')
+const Joi = require('joi');
 
 const id = Joi.number().integer();
-const namPodcast = Joi.number().integer();
+const namePodcast = Joi.number().integer();
 const authorId = Joi.number().integer();
 
-const creatPodcastSchema = Joi.object({
-  namePodcast: namPodcast.required(),
-  authorId: authorId.required(),
+const createPodcastSchema = Joi.object({
+  namePodcast: namePodcast.required(),
+  authorId: authorId.required()
 })
 
-const getAudioBooksSchema = Joi.object({
+const getPodcastSchema = Joi.object({
   id: id.required()
 })
 
-module.exports = { creatPodcastSchema, getAudioBooksSchema }
+module.exports = { createPodcastSchema, getPodcastSchema }

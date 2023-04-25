@@ -49,6 +49,7 @@ router.post('/',
   }
 )
 
+<<<<<<< HEAD
 router.post('/file',
   validatorHandler(createProductSchema, 'body'),
   async (req, res, next) => {
@@ -64,6 +65,8 @@ router.post('/file',
   }
 )
 
+=======
+>>>>>>> 6845bf6beeca937f582b745702487c457386a112
 router.patch('/:id',
   validatorHandler(getProductSchema, 'params'),
   validatorHandler(updateProductSchema, 'body'),
