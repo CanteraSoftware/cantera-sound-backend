@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 
-const GENDERPODCAST_TABLE = 'genderpodcast'
+const GENDER_PODCAST_TABLE = 'genderpodcast'
 
 const GenderPodcastSchema = {
   id: {
@@ -22,11 +22,11 @@ class GenderPodcast extends Model {
   static config(sequelize) {
     return {
       sequelize,
-      tableName: GENDERPODCAST_TABLE,
+      tableName: GENDER_PODCAST_TABLE,
       modelName: 'GenderPodcast',
       timestamps: false
     }
   }
 }
 
-module.exports = { GENDERPODCAST_TABLE, GenderPodcastSchema, GenderPodcast };   
+module.exports = { GENDER_PODCAST_TABLE, GenderPodcastSchema, GenderPodcast };   

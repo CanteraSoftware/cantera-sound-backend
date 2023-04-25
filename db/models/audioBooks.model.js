@@ -29,8 +29,4 @@ class AudioBooks extends Model {
   }
 }
 
-<<<<<<< HEAD
-module.exports = { AUDIOBOOKS_TABLE, AudioBooksSchema, AudioBooks }
-=======
 module.exports = { AUDIOBOOKS_TABLE, AudioBooksSchema, AudioBooks };
->>>>>>> 6845bf6beeca937f582b745702487c457386a112

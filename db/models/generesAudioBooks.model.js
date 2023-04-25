@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 
-const GENERESAUDIOBOOKS_TABLE = 'categories'
+const GENERES_AUDIOBOOKS_TABLE = 'categories'
 
 const CategoriesSchema = {
   id: {
@@ -22,11 +22,11 @@ class Categories extends Model {
   static config(sequelize) {
     return {
       sequelize,
-      tableName: GENERESAUDIOBOOKS_TABLE,
+      tableName: GENERES_AUDIOBOOKS_TABLE,
       modelName: 'Categories',
       timestamps: false
     }
   }
 }
 
-module.exports = { GENERESAUDIOBOOKS_TABLE, CategoriesSchema, Categories }
+module.exports = { GENERES_AUDIOBOOKS_TABLE, CategoriesSchema, Categories }
