@@ -12,7 +12,38 @@ const SongsSchema = {
   nameSong: {
     type: DataTypes.STRING,
     allowNull: false,
-  }
+  },
+  authorId: {
+    field: 'author_id',
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    references: {
+      model: AUTHOR_TABLE,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
+  },
+  generoId: {
+    field: 'genero_id',
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    references: {
+      model: GENERO_TABLE,
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
+  },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  song: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+
 }
 
 class Songs extends Model {
