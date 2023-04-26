@@ -15,8 +15,11 @@
   "author": "Abril Gonzalez <abril.gonzalez.cantera@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.317.0",
     "@babel/eslint-parser": "^7.21.3",
     "@hapi/boom": "^9.1.4",
+    "aws": "^0.0.3-2",
+    "aws-sdk": "^2.1362.0",
     "bcrypt": "^5.0.1",
     "boom": "^7.3.0",
     "cors": "^2.8.5",
