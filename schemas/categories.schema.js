@@ -3,13 +3,13 @@ const Joi = require('joi');
 const id = Joi.number().integer();
 const nameCategory = Joi.number().integer()
 
-const createCategorySchema = Joi.object({
+const createCategoriesSchema = Joi.object({
   nameCategory: nameCategory.required()
 })
 
-const getCategorySchema = Joi.object({
+const getCategoriesSchema = Joi.object({
   id: id.required()
 })
 
 
-module.exports = { createCategorySchema, getCategorySchema }
+module.exports = { createCategoriesSchema, getCategoriesSchema }

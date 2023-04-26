@@ -5,11 +5,8 @@ const { logErrors, errorHandler, boomErrorHandler, ormErrorHandler } = require('
 
 const app = express()
 
-<<<<<<< HEAD
 
-=======
 //cambio
->>>>>>> 6845bf6beeca937f582b745702487c457386a112
 const port = process.env.PORT || 5000
 
 app.use(express.json());

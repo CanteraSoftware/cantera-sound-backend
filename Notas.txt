@@ -1,7 +1,5 @@
 Instalamos 
 docker
-<<<<<<< HEAD
-=======
 
 ## generar la migration
  npm run migrations:generate product
@@ -18,4 +16,3 @@ docker inspect ab912ffc58fd
 
 ## genera el modelo en la base de datos segun la migracion que generaste
  npm run migrations:run
->>>>>>> 6845bf6beeca937f582b745702487c457386a112
