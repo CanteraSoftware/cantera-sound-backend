@@ -68,4 +68,4 @@ class Files extends Model {
   }
 }
 
-module.exports = { FILES_TABLE, FilesSchema, Files };   
+module.exports = { FILES_TABLE, FilesSchema, Files };

@@ -17,7 +17,7 @@ const GendersSchema = {
 
 class Genders extends Model {
   static associate(models) {
-    this.hasMany(models.Player, {
+    this.hasMany(models.Files, {
       as: 'files',
       foreignKey: 'genderId'
     });

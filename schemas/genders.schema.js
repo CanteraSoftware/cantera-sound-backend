@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const id = Joi.number().integer();
-const nameGender = Joi.number().integer();
+const nameGender = Joi.string().min(3).max(45);
 
 const createGendersSchema = Joi.object({
   nameGender: nameGender.required()
