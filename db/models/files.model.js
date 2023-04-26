@@ -50,7 +50,6 @@ const FilesSchema = {
     type: DataTypes.STRING,
     allowNull: false,
   }
-
 }
 
 class Files extends Model {

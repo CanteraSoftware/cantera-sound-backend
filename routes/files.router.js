@@ -4,10 +4,9 @@ const FilesService = require('../services/files.services')
 const { updateFilesSchema, createFilesSchema, getFilesSchema } = require('../schemas/files.schema')
 const validatorHandler = require('../middlewares/validator.handler')
 
-
 const router = express.Router()
-const service = new FilesService()
 
+const service = new FilesService()
 
 router.get('/', async (req, res, next) => {
   try {
