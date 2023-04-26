@@ -53,17 +53,6 @@ module.exports = {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
-      genderId: {
-        field: 'gender_id',
-        allowNull: false,
-        type: Sequelize.DataTypes.INTEGER,
-        references: {
-          model: GENDERS_TABLE,
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
-      },
       categoryId: {
         field: 'category_id',
         allowNull: false,
@@ -75,6 +64,17 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
       },
+      genderId: {
+        field: 'gender_id',
+        allowNull: false,
+        type: Sequelize.DataTypes.INTEGER,
+        references: {
+          model: GENDERS_TABLE,
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      }
     });
   },
 
