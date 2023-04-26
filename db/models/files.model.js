@@ -16,6 +16,18 @@ const FilesSchema = {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  nameAuthor: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  imageUrl: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  fileUrl: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   categoryId: {
     field: 'category_id',
     allowNull: false,
@@ -27,14 +39,6 @@ const FilesSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
   },
-  fileUrl: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  nameAuthor: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
   genderId: {
     field: 'gender_id',
     allowNull: false,
@@ -45,10 +49,6 @@ const FilesSchema = {
     },
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
-  },
-  imageUrl: {
-    type: DataTypes.STRING,
-    allowNull: false,
   }
 
 }

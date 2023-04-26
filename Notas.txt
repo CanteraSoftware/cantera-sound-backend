@@ -1,13 +1,20 @@
-Instalamos 
-docker
-
-## generar la migration
- npm run migrations:generate product
+//Que hacer antes de comenzar el Proyecto
+##instalar las dependencias
+npm i
 
 ## correr en docker
- docker-compose up -d postgres
- docker-compose up -d pgadmin
+ docker-compose start postgres
+ docker-compose start pgadmin
 
+## correr la migration para que se creen las tablas en la base de datos con sus propiedades(Solo en caso de que no se haya corrido una vez al menos)
+ npm run migrations:run
+
+##Si la migracion ya se corrio entonces comenzar el servidor para probar los endpoint en insomnia
+ npm run dev
+
+
+
+//Datos adicionales
 ## ver que contenedor esta corriendo
 docker ps
 

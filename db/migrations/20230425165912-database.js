@@ -41,22 +41,15 @@ module.exports = {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
-      categoryId: {
-        field: 'category_id',
-        allowNull: false,
-        type: Sequelize.DataTypes.INTEGER,
-        references: {
-          model: CATEGORIES_TABLE,
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
-      },
-      fileUrl: {
+      nameAuthor: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
-      nameAuthor: {
+      imageUrl: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+      },
+      fileUrl: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
@@ -71,10 +64,17 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
       },
-      imageUrl: {
-        type: Sequelize.DataTypes.STRING,
+      categoryId: {
+        field: 'category_id',
         allowNull: false,
-      }
+        type: Sequelize.DataTypes.INTEGER,
+        references: {
+          model: CATEGORIES_TABLE,
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
     });
   },
 
