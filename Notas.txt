@@ -23,3 +23,5 @@ docker inspect ab912ffc58fd
 
 ## genera el modelo en la base de datos segun la migracion que generaste
  npm run migrations:run
+
+c@nteraSOund
