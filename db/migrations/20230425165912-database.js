@@ -41,6 +41,18 @@ module.exports = {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
+      nameAuthor: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+      },
+      imageUrl: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+      },
+      fileUrl: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+      },
       categoryId: {
         field: 'category_id',
         allowNull: false,
@@ -52,14 +64,6 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
       },
-      fileUrl: {
-        type: Sequelize.DataTypes.STRING,
-        allowNull: false,
-      },
-      nameAuthor: {
-        type: Sequelize.DataTypes.STRING,
-        allowNull: false,
-      },
       genderId: {
         field: 'gender_id',
         allowNull: false,
@@ -70,10 +74,6 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
-      },
-      imageUrl: {
-        type: Sequelize.DataTypes.STRING,
-        allowNull: false,
       }
     });
   },

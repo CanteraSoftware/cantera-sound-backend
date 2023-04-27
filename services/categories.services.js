@@ -24,11 +24,11 @@ class CategoriesServices {
   }
 
   // Update category by ID whit new changes
-  async update(id, changes) {
-    const category = await this.findOne(id)
-    const rta = await category.update(changes)
-    return rta;
-  }
+  // async update(id, changes) {
+  //   const category = await this.findOne(id)
+  //   const rta = await category.update(changes)
+  //   return rta;
+  // }
 
   // Delete category by ID
   // ATTENTION

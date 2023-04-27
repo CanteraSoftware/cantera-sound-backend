@@ -1,7 +1,7 @@
 const express = require('express')
 
 const CategoriesService = require('../services/categories.services')
-const { updateCategoriesSchema, createCategoriesSchema, getCategoriesSchema } = require('../schemas/categories.schema')
+const { createCategoriesSchema, getCategoriesSchema } = require('../schemas/categories.schema')
 const validatorHandler = require('../middlewares/validator.handler')
 
 
@@ -64,21 +64,21 @@ router.post('/file',
   }
 )
 
-router.patch('/:id',
-  validatorHandler(getCategoriesSchema, 'params'),
-  validatorHandler(updateCategoriesSchema, 'body'),
-  async (req, res, next) => {
-    try {
-      const { id } = req.params;
-      const body = req.body;
-      // Update category by ID
-      const category = await service.update(id, body)
-      res.json(category)
-    } catch (error) {
-      next(error)
-    }
-  }
-)
+// router.patch('/:id',
+//   validatorHandler(getCategoriesSchema, 'params'),
+//   validatorHandler(updateCategoriesSchema, 'body'),
+//   async (req, res, next) => {
+//     try {
+//       const { id } = req.params;
+//       const body = req.body;
+//       // Update category by ID
+//       const category = await service.update(id, body)
+//       res.json(category)
+//     } catch (error) {
+//       next(error)
+//     }
+//   }
+// )
 
 router.delete('/:id',
   validatorHandler(getCategoriesSchema, 'params'),

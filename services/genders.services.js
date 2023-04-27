@@ -24,11 +24,11 @@ class GendersServices {
   }
 
   // Update gender by ID whit new changes
-  async update(id, changes) {
-    const gender = await this.findOne(id)
-    const rta = await gender.update(changes)
-    return rta;
-  }
+  // async update(id, changes) {
+  //   const gender = await this.findOne(id)
+  //   const rta = await gender.update(changes)
+  //   return rta;
+  // }
 
   // Delete gender by ID
   // ATTENTION

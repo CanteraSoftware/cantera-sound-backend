@@ -1,7 +1,7 @@
 const express = require('express')
 
 const FilesService = require('../services/files.services')
-const { updateFilesSchema, createFilesSchema, getFilesSchema } = require('../schemas/files.schema')
+const { createFilesSchema, getFilesSchema } = require('../schemas/files.schema')
 const validatorHandler = require('../middlewares/validator.handler')
 
 const router = express.Router()
@@ -63,21 +63,20 @@ router.post('/file',
   }
 )
 
-router.patch('/:id',
-  validatorHandler(getFilesSchema, 'params'),
-  validatorHandler(updateFilesSchema, 'body'),
-  async (req, res, next) => {
-    try {
-      const { id } = req.params;
-      const body = req.body;
-      // Update file by ID
-      const file = await service.update(id, body)
-      res.json(file)
-    } catch (error) {
-      next(error)
-    }
-  }
-)
+// router.patch('/:id',
+//   validatorHandler(getFilesSchema, 'params'),
+//   async (req, res, next) => {
+//     try {
+//       const { id } = req.params;
+//       const body = req.body;
+//       // Update file by ID
+//       const file = await service.update(id, body)
+//       res.json(file)
+//     } catch (error) {
+//       next(error)
+//     }
+//   }
+// )
 
 router.delete('/:id',
   validatorHandler(getFilesSchema, 'params'),

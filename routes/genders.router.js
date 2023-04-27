@@ -1,7 +1,7 @@
 const express = require('express')
 
 const GendersService = require('../services/genders.services')
-const { updateGendersSchema, createGendersSchema, getGendersSchema } = require('../schemas/genders.schema')
+const { createGendersSchema, getGendersSchema } = require('../schemas/genders.schema')
 const validatorHandler = require('../middlewares/validator.handler')
 
 
@@ -64,21 +64,21 @@ router.post('/file',
   }
 )
 
-router.patch('/:id',
-  validatorHandler(getGendersSchema, 'params'),
-  validatorHandler(updateGendersSchema, 'body'),
-  async (req, res, next) => {
-    try {
-      const { id } = req.params;
-      const body = req.body;
-      // Update gender by ID
-      const gender = await service.update(id, body)
-      res.json(gender)
-    } catch (error) {
-      next(error)
-    }
-  }
-)
+// router.patch('/:id',
+//   validatorHandler(getGendersSchema, 'params'),
+//   validatorHandler(updateGendersSchema, 'body'),
+//   async (req, res, next) => {
+//     try {
+//       const { id } = req.params;
+//       const body = req.body;
+//       // Update gender by ID
+//       const gender = await service.update(id, body)
+//       res.json(gender)
+//     } catch (error) {
+//       next(error)
+//     }
+//   }
+// )
 
 router.delete('/:id',
   validatorHandler(getGendersSchema, 'params'),
