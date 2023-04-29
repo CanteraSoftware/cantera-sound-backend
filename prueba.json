@@ -1,0 +1,72 @@
+{
+  "data": {
+    "categories": {
+      "songs": [
+        {
+          "authorSong": [
+            {
+              "id": 1,
+              "name": "name"
+            }
+          ],
+          "song": [
+            {
+              "id": 1,
+              "name": "name",
+              "author_id": 1,
+              "gendersId": 1,
+              "datatime": 123,
+              "duration": 123,
+              "image": "url()",
+              "songData": "url(song)"
+            }
+          ],
+          "gendersSong": [
+            {
+              "id": 1,
+              "name": "name"
+            }
+          ]
+        }
+      ],
+      "audiobooks": [
+        {
+          "audiobook": [
+            {
+              "id": 2,
+              "name": "nameBook",
+              "author": "name",
+              "id_ticket_audiobook": 1,
+              "datatime": "fecha"
+            }
+          ],
+          "ticket_audiobook": [
+            {
+              "id": 2,
+              "name": "nameGenero"
+            }
+          ]
+        }
+      ],
+      "podcasts": [
+        {
+          "podcast": [
+            {
+              "id": 1,
+              "name": "namePodcast",
+              "author": "nameAuthor",
+              "datatime": 123,
+              "ticket_podcast_id": 1
+            }
+          ],
+          "ticket_podcast": [
+            {
+              "id": 1,
+              "name": "name_ticket_podcast"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
