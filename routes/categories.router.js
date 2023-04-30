@@ -1,7 +1,7 @@
 const express = require('express')
 
 const CategoriesService = require('../services/categories.services')
-const { updateCategoriesSchema, createCategoriesSchema, getCategoriesSchema } = require('../schemas/categories.schema')
+const { createCategoriesSchema, getCategoriesSchema } = require('../schemas/categories.schema')
 const validatorHandler = require('../middlewares/validator.handler')
 const { pool } = require('./../config/config');
 
@@ -45,9 +45,14 @@ router.post('/',
           throw error;
         }
         // Find any same values
-        validatorConcidences = (rowFilter, nameFilter) => {rowFilter.some(row => row.id === nameFilter-1)
-          console.log(nameFilter)};
-        console.log(validatorConcidences(results.rows, body.nameCategory))
+        validatorConcidences = (rowFilter, nameFilter) => rowFilter.some(row => row.nameCategory === nameFilter);
+        if (validatorConcidences(results.rows, body.nameCategory)) {
+          throw res.status(409).json({
+            "statusCode": 409,
+            "error": "Conflict",
+            "message": "Conflict with same name rows"
+          });
+        }
         pool.end();
       });
       // Create new category
@@ -75,21 +80,21 @@ router.post('/file',
   }
 )
 
-router.patch('/:id',
-  validatorHandler(getCategoriesSchema, 'params'),
-  validatorHandler(updateCategoriesSchema, 'body'),
-  async (req, res, next) => {
-    try {
-      const { id } = req.params;
-      const body = req.body;
-      // Update category by ID
-      const category = await service.update(id, body)
-      res.json(category)
-    } catch (error) {
-      next(error)
-    }
-  }
-)
+// router.patch('/:id',
+//   validatorHandler(getCategoriesSchema, 'params'),
+//   validatorHandler(updateCategoriesSchema, 'body'),
+//   async (req, res, next) => {
+//     try {
+//       const { id } = req.params;
+//       const body = req.body;
+//       // Update category by ID
+//       const category = await service.update(id, body)
+//       res.json(category)
+//     } catch (error) {
+//       next(error)
+//     }
+//   }
+// )
 
 router.delete('/:id',
   validatorHandler(getCategoriesSchema, 'params'),

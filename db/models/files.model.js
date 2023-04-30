@@ -16,6 +16,18 @@ const FilesSchema = {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  nameAuthor: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  imageUrl: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  fileUrl: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   categoryId: {
     field: 'category_id',
     allowNull: false,
@@ -27,14 +39,6 @@ const FilesSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
   },
-  fileUrl: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  nameAuthor: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
   genderId: {
     field: 'gender_id',
     allowNull: false,
@@ -45,18 +49,15 @@ const FilesSchema = {
     },
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
-  },
-  imageUrl: {
-    type: DataTypes.STRING,
-    allowNull: false,
   }
 
 }
 
 class Files extends Model {
   static associate(models) {
-    this.belongsTo(models.Genders, { as: 'genders' });
-    this.belongsTo(models.Categories, { as: 'categories' });
+    //ACA SE SOLUCIONO EL ERROR
+    // this.hasOne(models.Categories, { as: 'categories' });
+    // this.hasMany(models.Genders, { as: 'genders' });
   }
   static config(sequelize) {
     return {

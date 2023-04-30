@@ -4,9 +4,9 @@ services:
   postgres:
     image: postgres:14
     environment:
-      - POSTGRES_DB=prueba
-      - POSTGRES_USER=grupoBack
-      - POSTGRES_PASSWORD=123admin
+      - POSTGRES_DB=cantera-song
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin123
     ports:
       - 5432:5432
     volumes:

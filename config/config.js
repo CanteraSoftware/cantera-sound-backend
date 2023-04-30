@@ -9,6 +9,14 @@ const pool = new Pool({
   port: 5432
 });
 
+pool.end((err) => {
+  if (err) {
+    console.error('Failed close pool', err);
+  } else {
+    console.log('Sucess close pool');
+  }
+});
+
 const config = {
   env: process.env.NODE_ENV || 'dev',
   isProd: process.env.NODE_ENV === 'production',
