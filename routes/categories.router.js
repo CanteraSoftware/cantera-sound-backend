@@ -36,29 +36,32 @@ router.get('/:id',
 )
 
 router.post('/',
+// Validate send datas
   validatorHandler(createCategoriesSchema, 'body'),
-  async (req, res, next) => {
+  (req, res, next) => {
     try {
+      // Require body of the user
       const body = req.body;
-      pool.query('SELECT id FROM categories;', (error, results) => {
+      // Select a category name and find if this name be repite
+      pool.query('SELECT namecategory FROM categories;', async (error, results) => {
         if (error) {
           throw error;
         }
         // Find any same values
-        validatorConcidences = (rowFilter, nameFilter) => rowFilter.some(row => row.nameCategory === nameFilter);
-        if (validatorConcidences(results.rows, body.nameCategory)) {
-          throw res.status(409).json({
+        validatorConcidences = (rowFilter, nameFilter) => rowFilter.some(row => row.namecategory === nameFilter);
+        if (validatorConcidences(results.rows, body.namecategory)) {
+          return res.status(409).json({
             "statusCode": 409,
             "error": "Conflict",
             "message": "Conflict with same name rows"
           });
         }
+        // Create new category
+        const newCategory = await service.create(body)
+        // Set status "created" in JSON
+        res.status(201).json(newCategory);
         pool.end();
       });
-      // Create new category
-      const newCategory = await service.create(body)
-      // Set status "created" in JSON
-      res.status(201).json(newCategory);
     } catch (error) {
       next(error)
     }

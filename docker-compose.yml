@@ -4,7 +4,7 @@ services:
   postgres:
     image: postgres:14
     environment:
-      - POSTGRES_DB=cantera-song
+      - POSTGRES_DB=canterasong
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=admin123
     ports:
