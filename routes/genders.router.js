@@ -3,6 +3,7 @@ const express = require('express')
 const GendersService = require('../services/genders.services')
 const { createGendersSchema, getGendersSchema } = require('../schemas/genders.schema')
 const validatorHandler = require('../middlewares/validator.handler')
+const { pool } = require('./../config/config');
 
 
 const router = express.Router()
@@ -34,20 +35,33 @@ router.get('/:id',
   }
 )
 
-router.post('/',
-  validatorHandler(createGendersSchema, 'body'),
+router.post('/', 
+  // Validate send datas
+  validatorHandler(createGendersSchema, 'body'), 
   async (req, res, next) => {
     try {
+      // Require body of the user
       const body = req.body;
+      // Select a gender name and find if this name be repite
+      const results = await pool.query('SELECT namegender FROM genders;');
+      // Find any same values
+      const validatorConcidences = (rowFilter, nameFilter) => rowFilter.some(row => row.namegender === nameFilter);
+      if (validatorConcidences(results.rows, body.namegender)) {
+        return res.status(409).json({
+          "statusCode": 409,
+          "error": "Conflict",
+          "message": "Conflict with same name rows"
+        });
+      }
       // Create new gender
-      const newCategory = await service.create(body)
+      const newGender = await service.create(body);
       // Set status "created" in JSON
-      res.status(201).json(newCategory);
+      res.status(201).json(newGender);
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
-)
+);
 
 router.post('/file',
   validatorHandler(createGendersSchema, 'body'),
