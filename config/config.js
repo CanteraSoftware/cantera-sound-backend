@@ -9,12 +9,9 @@ const pool = new Pool({
   port: 5432
 });
 
-pool.end((err) => {
-  if (err) {
-    console.error('Failed close pool', err);
-  } else {
-    console.log('Sucess close pool');
-  }
+process.on('beforeExit', () => {
+  pool.end();
+  console.log('Connection pool closed');
 });
 
 const config = {
