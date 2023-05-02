@@ -4,7 +4,7 @@ const id = Joi.number().integer();
 const nameGender = Joi.string().min(3).max(45);
 
 const createGendersSchema = Joi.object({
-  namegender: nameGender.required()
+  nameGender: nameGender.required()
 })
 
 const getGendersSchema = Joi.object({

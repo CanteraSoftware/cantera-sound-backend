@@ -12,24 +12,24 @@ const FilesSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  namefile: {
+  nameFile: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  nameauthor: {
+  nameAuthor: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  imageurl: {
+  imageUrl: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  fileurl: {
+  fileUrl: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  categoryid: {
-    field: 'categoryid',
+  categoryId: {
+    field: 'category_id',
     allowNull: false,
     type: DataTypes.INTEGER,
     references: {
@@ -39,8 +39,8 @@ const FilesSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
   },
-  genderid: {
-    field: 'genderid',
+  genderId: {
+    field: 'gender_id',
     allowNull: false,
     type: DataTypes.INTEGER,
     references: {

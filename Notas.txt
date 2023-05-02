@@ -25,3 +25,13 @@ docker inspect ab912ffc58fd
  npm run migrations:run
 
 c@nteraSOund
+
+ip
+18.117.98.49:5000
+
+"nameFile": "",
+	"nameAuthor": "PLAYANAME",
+	"imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7HfzPt1iMbl-2nN7_0l-FnhQWYijI_bRHtYN72ri7IYer2hdjTJGN0S__OtISchxgcHw&usqp=CAU",
+	"fileUrl": "",
+	"categoryId": "2",
+	"genderId": "1"
