@@ -3,4 +3,4 @@ postgres_data/
 postgres_data
 .env
 package-lock.json
-.vscode/
+service.s3.js

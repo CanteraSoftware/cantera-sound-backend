@@ -24,12 +24,6 @@ class FilesServices {
     return file;
   }
 
-  // Update file by ID whit new changes
-  // async update(id, changes) {
-  //   const file = await this.findOne(id)
-  //   const rta = await file.update(changes)
-  //   return rta;
-  // }
 
   // Delete file by ID
   // ATTENTION
