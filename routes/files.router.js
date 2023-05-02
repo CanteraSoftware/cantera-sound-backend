@@ -81,7 +81,7 @@ router.post("/", upload.single("fileUrl"),
         req.body.nameFile,
         req.body.nameAuthor,
         req.body.imageUrl,
-        // req.body.fileUrl,
+        req.body.fileUrl,
         req.body.categoryId,
         req.body.genderId,
         req.files

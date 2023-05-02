@@ -43,10 +43,10 @@ router.post('/',
       // Require body of the user
       const body = req.body;
       // Select a category name and find if this name be repite
-      const results = await pool.query('SELECT namecategory FROM categories;');
+      const results = await pool.query('SELECT "nameCategory" FROM categories');
       // Find any same values
-      const validatorConcidences = (rowFilter, nameFilter) => rowFilter.some(row => row.namecategory === nameFilter);
-      if (validatorConcidences(results.rows, body.namecategory)) {
+      const validatorConcidences = (rowFilter, nameFilter) => rowFilter.some(row => row.nameCategory === nameFilter);
+      if (validatorConcidences(results.rows, body.nameCategory)) {
         return res.status(409).json({
           "statusCode": 409,
           "error": "Conflict",

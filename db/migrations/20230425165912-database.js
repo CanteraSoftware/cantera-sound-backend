@@ -13,7 +13,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.DataTypes.INTEGER
       },
-      namecategory: {
+      nameCategory: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       }
@@ -25,7 +25,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.DataTypes.INTEGER
       },
-      namegender: {
+      nameGender: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       }
@@ -37,24 +37,24 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.DataTypes.INTEGER
       },
-      namefile: {
+      nameFile: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
-      nameauthor: {
+      nameAuthor: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
-      imageurl: {
+      imageUrl: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
-      fileurl: {
+      fileUrl: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
-      categoryid: {
-        field: 'categoryid',
+      categoryId: {
+        field: 'category_id',
         allowNull: false,
         type: Sequelize.DataTypes.INTEGER,
         references: {
@@ -64,8 +64,8 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
       },
-      genderid: {
-        field: 'genderid',
+      genderId: {
+        field: 'gender_id',
         allowNull: false,
         type: Sequelize.DataTypes.INTEGER,
         references: {

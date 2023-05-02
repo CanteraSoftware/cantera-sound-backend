@@ -18,8 +18,7 @@ router.get('/', async (req, res, next) => {
   } catch (error) {
     next(error)
   }
-}
-)
+})
 
 router.get('/:id',
   validatorHandler(getGendersSchema, 'params'),
@@ -35,18 +34,18 @@ router.get('/:id',
   }
 )
 
-router.post('/', 
+router.post('/',
   // Validate send datas
-  validatorHandler(createGendersSchema, 'body'), 
+  validatorHandler(createGendersSchema, 'body'),
   async (req, res, next) => {
     try {
       // Require body of the user
       const body = req.body;
       // Select a gender name and find if this name be repite
-      const results = await pool.query('SELECT namegender FROM genders;');
+      const results = await pool.query('SELECT "nameGender" FROM genders');
       // Find any same values
-      const validatorConcidences = (rowFilter, nameFilter) => rowFilter.some(row => row.namegender === nameFilter);
-      if (validatorConcidences(results.rows, body.namegender)) {
+      const validatorConcidences = (rowFilter, nameFilter) => rowFilter.some(row => row.nameGender === nameFilter);
+      if (validatorConcidences(results.rows, body.nameGender)) {
         return res.status(409).json({
           "statusCode": 409,
           "error": "Conflict",
