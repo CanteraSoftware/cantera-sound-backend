@@ -11,12 +11,12 @@ const genderId = Joi.number().integer();
 
 
 const createFilesSchema = Joi.object({
-  nameFile: nameFile.required(),
-  nameAuthor: nameAuthor.required(),
-  imageUrl: imageUrl,
-  fileUrl: fileUrl.required(),
-  categoryId: categoryId.required(),
-  genderId: genderId.required(),
+  namefile: nameFile.required(),
+  nameauthor: nameAuthor.required(),
+  imageurl: imageUrl,
+  fileurl: fileUrl.required(),
+  categoryid: categoryId.required(),
+  genderid: genderId.required(),
 })
 
 const getFilesSchema = Joi.object({

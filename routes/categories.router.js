@@ -3,6 +3,7 @@ const express = require('express')
 const CategoriesService = require('../services/categories.services')
 const { createCategoriesSchema, getCategoriesSchema } = require('../schemas/categories.schema')
 const validatorHandler = require('../middlewares/validator.handler')
+const { pool } = require('./../config/config');
 
 
 const router = express.Router()
@@ -34,20 +35,33 @@ router.get('/:id',
   }
 )
 
-router.post('/',
-  validatorHandler(createCategoriesSchema, 'body'),
+router.post('/', 
+  // Validate send datas
+  validatorHandler(createCategoriesSchema, 'body'), 
   async (req, res, next) => {
     try {
+      // Require body of the user
       const body = req.body;
+      // Select a category name and find if this name be repite
+      const results = await pool.query('SELECT namecategory FROM categories;');
+      // Find any same values
+      const validatorConcidences = (rowFilter, nameFilter) => rowFilter.some(row => row.namecategory === nameFilter);
+      if (validatorConcidences(results.rows, body.namecategory)) {
+        return res.status(409).json({
+          "statusCode": 409,
+          "error": "Conflict",
+          "message": "Conflict with same name rows"
+        });
+      }
       // Create new category
-      const newCategory = await service.create(body)
+      const newCategory = await service.create(body);
       // Set status "created" in JSON
       res.status(201).json(newCategory);
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
-)
+);
 
 router.post('/file',
   validatorHandler(createCategoriesSchema, 'body'),

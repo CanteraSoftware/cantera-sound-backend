@@ -9,7 +9,7 @@ const GendersSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  nameGender: {
+  namegender: {
     type: DataTypes.STRING,
     allowNull: false,
   }

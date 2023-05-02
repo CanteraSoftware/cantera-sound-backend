@@ -3,6 +3,7 @@ const express = require('express')
 const FilesService = require('../services/files.services')
 const { createFilesSchema, getFilesSchema } = require('../schemas/files.schema')
 const validatorHandler = require('../middlewares/validator.handler')
+const { pool } = require('./../config/config');
 
 const router = express.Router()
 
@@ -34,19 +35,34 @@ router.get('/:id',
 )
 
 router.post('/',
+  // Validate send datas
   validatorHandler(createFilesSchema, 'body'),
   async (req, res, next) => {
     try {
+      // Require body of the user
       const body = req.body;
-      // Create new file
-      const newCategory = await service.create(body)
+      // Select name and url of file and find if this name be repite
+      const results = await pool.query('SELECT name_file, file_url FROM files;');
+      // Find any same values
+      const validatorConcidences = (rowFilter, nameFilter, key) => rowFilter.some(row => row[key] === nameFilter);
+      if (validatorConcidences(results.rows, body.name_file, "name_file") || validatorConcidences(results.rows, body.file_url, "file_url")) {
+        return res.status(409).json({
+          "statusCode": 409,
+          "error": "Conflict",
+          "message": "Conflict with same name rows"
+        });
+      }
+      // Create new files
+      const newfiles = await service.create(body);
       // Set status "created" in JSON
-      res.status(201).json(newCategory);
+      res.status(201).json(newfiles);
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
-)
+);
+
+
 
 router.post('/file',
   validatorHandler(createFilesSchema, 'body'),

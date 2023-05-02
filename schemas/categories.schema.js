@@ -4,7 +4,7 @@ const id = Joi.number().integer();
 const nameCategory = Joi.string().min(3).max(45);
 
 const createCategoriesSchema = Joi.object({
-  nameCategory: nameCategory.required()
+  namecategory: nameCategory.required()
 })
 
 const getCategoriesSchema = Joi.object({
