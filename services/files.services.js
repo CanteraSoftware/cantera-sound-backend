@@ -14,7 +14,6 @@ class FilesServices {
   // Find all files
   async find() {
     const files = await models.Files.findAll();
-
     return files;
   }
 

@@ -10,7 +10,7 @@ const service = new FilesService()
 
 
 router.get('/', async (req, res, next) => {
-  try {
+  try { 
     const file = await service.find()
     // Call all file and transform to JSON
     res.json(file)
