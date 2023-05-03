@@ -1,11 +1,19 @@
 const express = require('express');
 const cors = require('cors');
 const routerApi = require('./routes');
+const fileUpload = require('express-fileupload');
 
 const { logErrors, errorHandler, boomErrorHandler, ormErrorHandler } = require('./middlewares/error.handler');
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+app.use(fileUpload({
+  //para utilizar los archivos que se encuentran aqui mismo
+  useTempFiles: true,
+  // donde se va guardar
+  tempFileDir: './uploads'
+}));
 
 app.use(express.json());
 

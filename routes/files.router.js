@@ -91,11 +91,22 @@ router.post("/", upload.single("file"),
       // res.send({ data: req.files, msg: "Exito" });
       res.status(201).json(newFile);
 
-      } catch (error) {
-        next(error)
-      }
+    } catch (error) {
+      next(error)
     }
+  }
 )
+
+// router.post("/upload", upload.single("file"), (req, res, next) => {
+//   res.send({ data: req.files, msg: "Exito" });
+// });
+
+router.post('/upload', async (req, res) => {
+  // console.log(res.send(req.files.file));
+
+  await service.uploadFile(req.files.file)
+  res.json({ message: 'upload files' })
+});
 
 
 router.delete('/:id',
