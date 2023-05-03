@@ -73,7 +73,7 @@ router.get('/:id',
 //   }
 // )
 
-router.post("/", upload.single("fileUrl"),
+router.post("/", upload.single("file"),
   validatorHandler(createFilesSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -81,7 +81,7 @@ router.post("/", upload.single("fileUrl"),
         req.body.nameFile,
         req.body.nameAuthor,
         req.body.imageUrl,
-        req.body.fileUrl,
+        // req.body.fileUrl
         req.body.categoryId,
         req.body.genderId,
         req.files
@@ -90,10 +90,11 @@ router.post("/", upload.single("fileUrl"),
       const newFile = await service.create(body)
       // res.send({ data: req.files, msg: "Exito" });
       res.status(201).json(newFile);
-    } catch (error) {
-      next(error)
+
+      } catch (error) {
+        next(error)
+      }
     }
-  }
 )
 
 
