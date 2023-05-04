@@ -25,17 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.json());
 
-const whitelist = ['http://localhost:8080', 'https://myapp.co', 'http://127.0.0.1:5500', , 'http://localhost:5173/', 'http://localhost:5000', 'http://localhost:5000/public', 'http://18.117.98.49:5000/api/v1/', 'http://18.117.98.49:5000/api/v1/categories', 'http://18.117.98.49:5000/api/v1/genders', 'http://18.117.98.49:5000/api/v1/files'];
-const options = {
-  origin: (origin, callback) => {
-    if (whitelist.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('no permitido'));
-    }
-  }
-}
-app.use(cors(options));
+app.use(cors());
 
 routerApi(app)
 

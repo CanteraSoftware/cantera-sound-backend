@@ -67,48 +67,6 @@ router.get('/:id',
   }
 )
 
-// router.post('/',
-//   validatorHandler(createFilesSchema, 'body'),
-//   async (req, res, next) => {
-//     try {
-//       const body = req.body;
-//       // Create new file
-//       const file = await service.create(body)
-//       // Set status "created" in JSON
-//       res.status(201).json(file);
-//     } catch (error) {
-//       next(error)
-//     }
-//   }
-// )
-
-/* router.post("/", upload.single("file"),
-  validatorHandler(createFilesSchema, 'body'),
-  async (req, res, next) => {
-    try {
-      const body = (
-        req.body.nameFile,
-        req.body.nameAuthor,
-        req.body.imageUrl,
-        // req.body.fileUrl
-        req.body.categoryId,
-        req.body.genderId,
-        req.files
-      );
-      // Create new file
-      const newFile = await service.create(body)
-      // res.send({ data: req.files, msg: "Exito" });
-      res.status(201).json(newFile);
-
-    } catch (error) {
-      next(error)
-    }
-  }
-) */
-
-// router.post("/upload", upload.single("file"), (req, res, next) => {
-//   res.send({ data: req.files, msg: "Exito" });
-// });
 
 router.post('/upload', validatorHandler(createFilesSchema, 'body'), async (req, res) => {
   // console.log(res.send(req.files.file));
