@@ -6,7 +6,7 @@ const { models } = require('../libs/sequelize');
 const { S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand } = require('@aws-sdk/client-s3')
 // modulo para poder trabajar con archivos de node
 const fs = require('fs')
-// import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner')
 const { config } = require('../config/config');
 
 // connection aws
@@ -72,6 +72,16 @@ class FilesServices {
     // se va a guardar dentro de un archivo en mi backend 
     // pipe: transmite lo del Body a otro objecto que se crea en mi backend
     result.Body.pipe(fs.createWriteStream(`./images/${filename}`))
+  }
+
+  // compartir por url
+  async getFileURL(filename) {
+    const command = new GetObjectCommand({
+      Bucket: config.bucketName,
+      Key: filename
+    })
+    // lo envia al cliente, el comando y el tiempo de espiracion en segundos
+    return await getSignedUrl(client, command, { expiresIn: 3600 })
   }
 
   // DB ###########################
