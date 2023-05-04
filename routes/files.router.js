@@ -33,6 +33,15 @@ const router = express.Router()
 
 const service = new FilesService()
 
+
+router.get('/upload', async (req, res) => {
+  const result = await service.getFiles()
+  // result.Contents.forEach(e => {
+  //   console.log(e.Key)
+  // });
+  res.json(result.Contents)
+});
+
 router.get('/', async (req, res, next) => {
   try {
     const file = await service.find()
@@ -73,7 +82,7 @@ router.get('/:id',
 //   }
 // )
 
-router.post("/", upload.single("file"),
+/* router.post("/", upload.single("file"),
   validatorHandler(createFilesSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -95,17 +104,26 @@ router.post("/", upload.single("file"),
       next(error)
     }
   }
-)
+) */
 
 // router.post("/upload", upload.single("file"), (req, res, next) => {
 //   res.send({ data: req.files, msg: "Exito" });
 // });
 
-router.post('/upload', async (req, res) => {
+router.post('/upload', validatorHandler(createFilesSchema, 'body'), async (req, res) => {
   // console.log(res.send(req.files.file));
 
-  await service.uploadFile(req.files.file)
-  res.json({ message: 'upload files' })
+  try {
+    const body = req.body;
+    await service.uploadFile(req.files.file)
+    // Create new file
+    const file = await service.create(body)
+    // Set status "created" in JSON
+    res.status(201).json(file);
+    // res.json({ message: 'upload files' })
+  } catch (error) {
+    next(error)
+  }
 });
 
 

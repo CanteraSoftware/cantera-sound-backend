@@ -7,72 +7,72 @@ const { S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand } = req
 // modulo para poder trabajar con archivos de node
 const fs = require('fs')
 // import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
-const { bucketRegion, publicKey, secretKey, bucketName } = require('../config/config');
+const { config } = require('../config/config');
 
 // connection aws
 const client = new S3Client({
-  region: bucketRegion,
+  region: config.bucketRegion,
   credentials: {
-    accessKeyId: publicKey,
-    secretAccessKey: secretKey,
+    accessKeyId: config.publicKey,
+    secretAccessKey: config.secretKey,
   }
 })
 
 // DB ###########################
 
 class FilesServices {
-  
+
   // crear funcion que permita subir archivos
-async uploadFile(file) {
-  // crea un objeto string, el string permite dividir el archivo y subirlo a donde quieras, en este caso aws
-  const stream = fs.createReadStream(file.tempFilePath)
-  // parametros
-  const uploadParams = {
-    Bucket: bucketName,
-    Key: file.name,
-    Body: stream
+  async uploadFile(file) {
+    // crea un objeto string, el string permite dividir el archivo y subirlo a donde quieras, en este caso aws
+    const stream = fs.createReadStream(file.tempFilePath)
+    // parametros
+    const uploadParams = {
+      Bucket: config.bucketName,
+      Key: file.name,
+      Body: stream
+    }
+    // describe las operaciones
+    const command = new PutObjectCommand(uploadParams)
+    const result = await client.send(command)
+    console.log(result);
   }
-  // describe las operaciones
-  const command = new PutObjectCommand(uploadParams)
-  const result = await client.send(command)
-  console.log(result);
-}
 
-// crear funcion que permita obtener archivos
-async getFiles() {
-  const command = new ListObjectsCommand({
-    Bucket: bucketName
-  })
-  const result = await client.send(command)
-  console.log(result);
-  return result;
-}
+  // crear funcion que permita obtener archivos
+  async getFiles() {
+    const command = new ListObjectsCommand({
+      Bucket: config.bucketName
+    })
+    const result = await client.send(command)
+    // console.log(result);
+    return result;
+  }
 
-// crear funcion que permita obtener un archivo
-async getFile(filename) {
-  const command = new GetObjectCommand({
-    Bucket: bucketName,
-    Key: filename
-  })
-  // lo envia al cliente
-  const result = await client.send(command)
-  console.log(result);
-  return result;
-}
+  // crear funcion que permita obtener un archivo
+  async getFile(filename) {
+    const command = new GetObjectCommand({
+      Bucket: config.bucketName,
+      Key: filename
+    })
+    // lo envia al cliente
+    const result = await client.send(command)
+    console.log(result);
+    return result;
+  }
 
-// descargar el archivo
-async downloadFile(filename) {
-  const command = new GetObjectCommand({
-    Bucket: bucketName,
-    Key: filename
-  })
-  // lo envia al cliente
-  const result = await client.send(command)
-  console.log(result);
-  // se va a guardar dentro de un archivo en mi backend 
-  // pipe: transmite lo del Body a otro objecto que se crea en mi backend
-  result.Body.pipe(fs.createWriteStream(`./images/${filename}`))
-}
+  // descargar el archivo
+  async downloadFile(filename) {
+    const command = new GetObjectCommand({
+      Bucket: config.bucketName,
+      Key: filename
+    })
+    // lo envia al cliente
+    const result = await client.send(command)
+    console.log(result);
+    // se va a guardar dentro de un archivo en mi backend 
+    // pipe: transmite lo del Body a otro objecto que se crea en mi backend
+    result.Body.pipe(fs.createWriteStream(`./images/${filename}`))
+  }
 
   // DB ###########################
 
