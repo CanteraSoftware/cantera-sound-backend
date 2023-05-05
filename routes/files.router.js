@@ -68,21 +68,24 @@ router.get('/:id',
 )
 
 
-router.post('/upload', validatorHandler(createFilesSchema, 'body'), async (req, res) => {
-  // console.log(res.send(req.files.file));
+router.post('/upload',
+  validatorHandler(createFilesSchema, 'body'),
+  async (req, res, next) => {
+    // console.log(res.send(req.files.file));
 
-  try {
-    const body = req.body;
-    await service.uploadFile(req.files.file)
-    // Create new file
-    const file = await service.create(body)
-    // Set status "created" in JSON
-    res.status(201).json(file);
-    // res.json({ message: 'upload files' })
-  } catch (error) {
-    next(error)
-  }
-});
+    try {
+      const fileUpload = await service.uploadFile(req.files.file)
+      console.log(fileUpload, 'Informacion');
+      const body = req.body;
+      // Create new file
+      const file = await service.create(body)
+      // Set status "created" in JSON
+      res.status(201).json(file);
+      // res.json({ message: 'upload files' })
+    } catch (error) {
+      next(error)
+    }
+  });
 
 
 router.delete('/:id',

@@ -17,11 +17,7 @@ class CategoriesServices {
     return categories;
   }
 
-  // Find category by ID
-  async findOne(id) {
-    const category = await models.Categories.findByPk(id)
-    return category;
-  }
+  // Find category by ID                                   
 
   // Update category by ID whit new changes
   // async update(id, changes) {

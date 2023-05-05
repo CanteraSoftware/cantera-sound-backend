@@ -27,7 +27,7 @@ docker inspect ab912ffc58fd
 c@nteraSOund
 
 ip
-18.117.98.49:5000
+18.117.98.49:2000
 
 {
 		"nameFile": "PLAYAMANE x Nateki - MIDNIGHT",
