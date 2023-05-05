@@ -38,11 +38,11 @@ router.post('/upload', validatorHandler(createFilesSchema, 'body'), async (req, 
 
   // await service.uploadFile(req.files.file)
   res.send(req.files.file);
-  const nameKey = req.files.file.name
+  const fileName = req.files.file.name
   try {
 
-    router.get(`/upload/:${nameKey}`, async (req, res) => {
-      const result = await service.getFileURL(req.params.nameKey)
+    router.get(`/upload/:${fileName}`, async (req, res) => {
+      const result = await service.getFileURL(req.params.fileName)
       res.send({
         url: result
       })

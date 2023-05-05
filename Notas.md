@@ -13,7 +13,6 @@ npm i
  npm run dev
 
 
-
 //Datos adicionales
 ## ver que contenedor esta corriendo
 docker ps
