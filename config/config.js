@@ -15,7 +15,7 @@ process.on('beforeExit', () => {
 const config = {
   env: process.env.NODE_ENV || 'dev',
   isProd: process.env.NODE_ENV === 'production',
-  port: process.env.PORT || ,
+  port: process.env.PORT || 2000,
   dbUrl: process.env.DATABASE_URL,
   //
   bucketName: process.env.AWS_BUCKET_NAME,
