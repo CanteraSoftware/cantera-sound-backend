@@ -4,3 +4,4 @@ postgres_data/
 package-lock.json
 service.s3.js
 node_modules
+uploads/
