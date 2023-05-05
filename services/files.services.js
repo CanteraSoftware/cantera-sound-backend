@@ -35,7 +35,7 @@ class FilesServices {
     // describe las operaciones
     const command = new PutObjectCommand(uploadParams)
     const result = await client.send(command)
-    console.log(result);
+    // console.log(result);
   }
 
   // crear funcion que permita obtener archivos

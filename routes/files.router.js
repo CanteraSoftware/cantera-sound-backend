@@ -9,6 +9,7 @@ const FilesService = require('../services/files.services')
 const { createFilesSchema, getFilesSchema } = require('../schemas/files.schema')
 const validatorHandler = require('../middlewares/validator.handler');
 const { date } = require('joi');
+const { get } = require('http');
 
 // const s3 = new aws.S3({
 //   accessKeyId: config.publicKey,
@@ -34,20 +35,37 @@ const router = express.Router()
 
 const service = new FilesService()
 
-router.post('/upload', validatorHandler(createFilesSchema, 'body'), async (req, res, next) => {
+router.get('/upload/:fileName', async (req, res) => {
+  const result = await service.getFileURL(req.params.fileName);
+  // res.send({
+  //   url: result
+  // })
+  console.log(result)
+})
 
-  // await service.uploadFile(req.files.file)
+router.post('/upload', validatorHandler(createFilesSchema, 'body'), async (req, res) => {
+  // await service.uploadFile(req.files.file) no borrar
   res.send(req.files.file);
-  const nameKey = req.files.file.name
-  try {
 
-    router.get(`/upload/:${nameKey}`, async (req, res) => {
-      const result = await service.getFileURL(req.params.nameKey)
-      res.send({
-        url: result
-      })
-      // res.json(result.Contents)
+  const fileName = req.files.file.name
+
+  const url = `/upload/${fileName}`
+  req.app.handle('GET', url, null, req, res)
+    .then(() => {
+      console.log('hola')
+      // res.status(201).json({
+      //   message: 'Producto creado exitosamente',
+      // });
     })
+    .catch((error) => {
+      // Manejar cualquier error que pueda ocurrir al llamar al controlador GET
+      console.error(error);
+      res.status(500).json({
+        message: 'Ha ocurrido un error al recuperar el producto creado'
+      });
+    });
+
+
     /* .then(response => {
       // console.log(response)
       // response.forEach(element => {
@@ -66,9 +84,7 @@ router.post('/upload', validatorHandler(createFilesSchema, 'body'), async (req, 
      }) */
 
     // res.json({ message: 'upload files' })
-  } catch (error) {
-    next(error)
-  }
+
 });
 
 router.get('/', async (req, res, next) => {
