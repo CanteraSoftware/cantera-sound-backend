@@ -7,68 +7,39 @@ const multerS3 = require("multer-s3");
 
 const FilesService = require('../services/files.services')
 const { createFilesSchema, getFilesSchema } = require('../schemas/files.schema')
-const validatorHandler = require('../middlewares/validator.handler');
-const { date } = require('joi');
+const validatorHandler = require('../middlewares/validator.handler')
 
-// const s3 = new aws.S3({
-//   accessKeyId: config.publicKey,
-//   secretAccessKey: config.secretKey,
-//   Bucket: config.bucketName,
-// });
+const s3 = new aws.S3({
+  accessKeyId: config.publicKey,
+  secretAccessKey: config.secretKey,
+  Bucket: config.bucketName,
+});
 
-// const upload = multer({
-//   storage: multerS3({
-//     s3: s3,
-//     bucket: config.bucketName,
-//     metadata: (req, file, cb) => {
-//       console.log(file);
-//       cb(null, { fieldName: file.originalname });
-//     },
-//     key: (req, file, cb) => {
-//       cb(null, file.originalname);
-//     },
-//   }),
-// });
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: config.bucketName,
+    metadata: (req, file, cb) => {
+      console.log(file);
+      cb(null, { fieldName: file.originalname });
+    },
+    key: (req, file, cb) => {
+      cb(null, file.originalname);
+    },
+  }),
+});
 
 const router = express.Router()
 
 const service = new FilesService()
 
-router.post('/upload', validatorHandler(createFilesSchema, 'body'), async (req, res, next) => {
 
-  // await service.uploadFile(req.files.file)
-  res.send(req.files.file);
-  const fileName = req.files.file.name
-  try {
-
-    router.get(`/upload/:${fileName}`, async (req, res) => {
-      const result = await service.getFileURL(req.params.fileName)
-      res.send({
-        url: result
-      })
-      // res.json(result.Contents)
-    })
-    /* .then(response => {
-      // console.log(response)
-      // response.forEach(element => {
-        
-      // });
-      // router.get('/upload', async (req, res) => {
-
-      //   const result = await service.getFile()
-      //   res.json(result.Contents)
-      // });
-    }) */
-    /*  .then(async () => {
-       const body = req.body;
-       const file = await service.create(body)
-       res.status(201).json(file);
-     }) */
-
-    // res.json({ message: 'upload files' })
-  } catch (error) {
-    next(error)
-  }
+router.get('/upload', async (req, res) => {
+  const result = await service.getFiles()
+  // result.Contents.forEach(e => {
+  //   console.log(e.Key)
+  // });
+  res.json(result.Contents)
 });
 
 router.get('/', async (req, res, next) => {
@@ -82,7 +53,7 @@ router.get('/', async (req, res, next) => {
 }
 )
 
-/* router.get('/:id',###
+router.get('/:id',
   validatorHandler(getFilesSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -94,7 +65,7 @@ router.get('/', async (req, res, next) => {
       next(error)
     }
   }
-) */
+)
 
 // router.post('/',
 //   validatorHandler(createFilesSchema, 'body'),
@@ -128,7 +99,6 @@ router.get('/', async (req, res, next) => {
       const newFile = await service.create(body)
       // res.send({ data: req.files, msg: "Exito" });
       res.status(201).json(newFile);
-
     } catch (error) {
       next(error)
     }
@@ -139,7 +109,21 @@ router.get('/', async (req, res, next) => {
 //   res.send({ data: req.files, msg: "Exito" });
 // });
 
-// ##
+router.post('/upload', validatorHandler(createFilesSchema, 'body'), async (req, res) => {
+  // console.log(res.send(req.files.file));
+
+  try {
+    const body = req.body;
+    await service.uploadFile(req.files.file)
+    // Create new file
+    // const file = await service.create(body)
+    // res.status(201).json(file);
+    // res.json({ message: 'upload files' })
+  } catch (error) {
+    next(error)
+  }
+});
+
 
 router.delete('/:id',
   validatorHandler(getFilesSchema, 'params'),
