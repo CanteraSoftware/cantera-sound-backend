@@ -34,16 +34,9 @@ class FilesServices {
     }
     // describe las operaciones
     const command = new PutObjectCommand(uploadParams)
-    await client.send(command)//borrar
-    // const result = await client.send(command)
+    await client.send(command)
+    /* const result =  */await client.send(command)
     // console.log(result);
-    // prueba
-    const command2 = new GetObjectCommand({
-      Bucket: config.bucketName,
-      Key: filename
-    })
-    // lo envia al cliente, el comando y el tiempo de espiracion en segundos
-    return await getSignedUrl(client, command2, { expiresIn: 3600 })
     };
 
   // crear funcion que permita obtener archivos

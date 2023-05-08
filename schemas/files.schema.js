@@ -2,8 +2,8 @@ const Joi = require('joi')
 
 // Validations
 const id = Joi.number().integer();
-const nameFile = Joi.string().min(3).max(65);
-const nameAuthor = Joi.string().min(3).max(45);
+const nameFile = Joi.string().min(3).max(100);
+const nameAuthor = Joi.string().min(3).max(100);
 const imageUrl = Joi.string().uri()
 const fileUrl = Joi.string().min(3).max(255)
 const categoryId = Joi.number().integer();

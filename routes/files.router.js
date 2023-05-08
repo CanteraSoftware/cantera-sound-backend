@@ -33,7 +33,24 @@ const router = express.Router()
 
 const service = new FilesService()
 
+router.post('/upload', validatorHandler(createFilesSchema, 'body'), async (req, res, next) => {
+  // console.log(res.send(req.files.file));
+  try {
+    // cargar archivo a AWS S3
+    await service.uploadFile(req.files.file)
+    // Create new file en DB postgres
+    const body = req.body;
+    const file = await service.create(body)
+    // Set status "created" in JSON
+    res.status(201).json(file);
+    // res.json({ message: 'upload files' })
+  } catch (error) {
+    next(error)
+  }
+});
 
+
+// get AWS S3
 router.get('/upload', async (req, res) => {
   const result = await service.getFiles()
   // result.Contents.forEach(e => {
@@ -41,7 +58,16 @@ router.get('/upload', async (req, res) => {
   // });
   res.json(result.Contents)
 });
+// get URL de AWS S3
+router.get('/upload/:fileName', async (req, res) => {
+  const result = await service.getFileURL(req.params.fileName);
+  res.send({
+    url: result
+  });
+});
 
+
+// get DB postgres
 router.get('/', async (req, res, next) => {
   try {
     const file = await service.find()
@@ -53,6 +79,7 @@ router.get('/', async (req, res, next) => {
 }
 )
 
+// get DB postgres
 router.get('/:id',
   validatorHandler(getFilesSchema, 'params'),
   async (req, res, next) => {
@@ -109,21 +136,7 @@ router.get('/:id',
 //   res.send({ data: req.files, msg: "Exito" });
 // });
 
-router.post('/upload', validatorHandler(createFilesSchema, 'body'), async (req, res) => {
-  // console.log(res.send(req.files.file));
-
-  try {
-    const body = req.body;
-    await service.uploadFile(req.files.file)
-    // Create new file
-    // const file = await service.create(body)
-    // res.status(201).json(file);
-    // res.json({ message: 'upload files' })
-  } catch (error) {
-    next(error)
-  }
-});
-
+// ##
 
 router.delete('/:id',
   validatorHandler(getFilesSchema, 'params'),
