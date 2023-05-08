@@ -98,13 +98,12 @@ class FilesServices {
   // Find all files
   async find() {
     const files = await models.Files.findAll();
-
     return files;
   }
 
   // Find file by ID
   async findOne(id) {
-    const file = await models.Files.findByPk(id)
+    const file = await models.Files.findByPk(id);
     return file;
   }
 
