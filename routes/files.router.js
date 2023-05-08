@@ -33,25 +33,12 @@ const router = express.Router()
 
 const service = new FilesService()
 
-router.post('/upload', validatorHandler(createFilesSchema, 'body'), async (req, res, next) => {
-  try {
-    // cargar archivo a AWS S3
-    await service.uploadFile(req.files.file)
-      // console.log(res.send(req.files.file));
-      .then(async () => {
-        const body = req.body;
-        const file = await service.create(body)
-        // console.log(res)
-        // Create new file en DB postgres
-        // Set status "created" in JSON
-        res.status(201).json(file);
-      })
-      .catch(err => {
-        console.error(err)
-      })
-  } catch (error) {
-    next(error)
-  }
+router.post('/upload', async (req, res) => {
+  // res.send(req.files.file);
+  await service.uploadFile(req.files.file)
+  // respuesta al front
+  res.json({ message: 'upload files' })
+  // console.log(res.send(req.files.file));
 });
 
 // get AWS S3
@@ -97,20 +84,20 @@ router.get('/:id',
   }
 )
 
-// router.post('/',
-//   validatorHandler(createFilesSchema, 'body'),
-//   async (req, res, next) => {
-//     try {
-//       const body = req.body;
-//       // Create new file
-//       const file = await service.create(body)
-//       // Set status "created" in JSON
-//       res.status(201).json(file);
-//     } catch (error) {
-//       next(error)
-//     }
-//   }
-// )
+router.post('/',
+  validatorHandler(createFilesSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      // Create new file
+      const file = await service.create(body)
+      // Set status "created" in JSON
+      res.status(201).json(file);
+    } catch (error) {
+      next(error)
+    }
+  }
+)
 
 /* router.post("/", upload.single("file"),
   validatorHandler(createFilesSchema, 'body'),
