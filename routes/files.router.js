@@ -72,7 +72,7 @@ router.post('/upload',
   upload.single("file"),
   async (req, res, next) => {
     res.send({ data: req.file, msg: "Exito" });
-    console.log(res.send({req1: req.files, req2: req.files.file}));
+    // console.log(res.send({req1: req.files, req2: req.files.file}));
 
     // try {
     //   const fileUpload = await service.uploadFile(req.files.file)
