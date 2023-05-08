@@ -67,28 +67,26 @@ router.get('/:id',
   }
 )
 
-router.post("/upload", upload.single("file"), (req, res, next) => {
-  res.send({ data: req.file, msg: "Exito" });
-});
-// router.post('/upload',
-//   upload.single("file"),
-//   async (req, res, next) => {
-//     res.send({ data: req.file, msg: "Exito" });
-//     console.log(res.send({req1: req.files, req2: req.files.file}));
 
-//     try {
-//       const fileUpload = await service.uploadFile(req.files.file)
-//       console.log(fileUpload, 'Informacion');
-//       const body = req.body;
-//       // Create new file
-//       const file = await service.create(body)
-//       // Set status "created" in JSON
-//       res.status(201).json(file);
-//       // res.json({ message: 'upload files' })
-//     } catch (error) {
-//       next(error)
-//     }
-//   });
+router.post('/upload',
+  validatorHandler(createFilesSchema, 'body'),
+  async (req, res, next) => {
+    console.log(res.send(req.files.file));
+    console.log(res.send({ data: req.file, msg: "Exito" }));
+
+    try {
+      const fileUpload = await service.uploadFile(req.files.file)
+      console.log(fileUpload, 'Informacion');
+      const body = req.body;
+      // Create new file
+      const file = await service.create(body)
+      // Set status "created" in JSON
+      res.status(201).json(file);
+      // res.json({ message: 'upload files' })
+    } catch (error) {
+      next(error)
+    }
+  });
 
 
 router.delete('/:id',
