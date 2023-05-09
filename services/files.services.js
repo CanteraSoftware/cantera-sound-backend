@@ -6,7 +6,7 @@ const { models } = require('../libs/sequelize');
 const { S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand } = require('@aws-sdk/client-s3')
 // modulo para poder trabajar con archivos de node
 const fs = require('fs')
-// import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { config } = require('../config/config');
 
 // connection aws
@@ -66,6 +66,8 @@ class FilesServices {
       Bucket: config.bucketName,
       Key: filename
     })
+    const signedUrl = await getSignedUrl(client, command, { expiresIn: 3600 });
+    return signedUrl;
     // lo envia al cliente
     const result = await client.send(command)
     console.log(result);

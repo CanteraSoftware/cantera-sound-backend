@@ -71,18 +71,20 @@ router.get('/:id',
 router.post('/upload',
   validatorHandler(createFilesSchema, 'body'),
   async (req, res, next) => {
-    console.log(res.send(req.files.file));
+    // console.log(res.send(req.files.file));
     console.log(res.send({ data: req.file, msg: "Exito" }));
 
     try {
-      const fileUpload = await service.uploadFile(req.files.file)
+      const signedUrl = await service.downloadFile(req.body.nameFile);
+      console.log(signedUrl);
+      /* const fileUpload = await service.uploadFile(req.files.file)
       console.log(fileUpload, 'Informacion');
       const body = req.body;
       // Create new file
       const file = await service.create(body)
       // Set status "created" in JSON
       res.status(201).json(file);
-      // res.json({ message: 'upload files' })
+      // res.json({ message: 'upload files' }) */
     } catch (error) {
       next(error)
     }
