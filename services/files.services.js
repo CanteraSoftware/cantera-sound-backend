@@ -3,7 +3,7 @@ const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
 
 // S3 ###########################
-const { S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand } = require('@aws-sdk/client-s3')
+const { S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand, HeadObjectCommand } = require('@aws-sdk/client-s3')
 // modulo para poder trabajar con archivos de node
 const fs = require('fs')
 const { getSignedUrl } = require('@aws-sdk/s3-request-presigner')
@@ -21,7 +21,28 @@ const client = new S3Client({
 // DB ###########################
 
 class FilesServices {
+  // PRUEVA
+  async cargarFile(file) {
+    // const stream = fs.createReadStream(file.tempFilePath)
+    const contenidoArchivo = fs.readFileSync(file);
+    // parametros
+    const uploadParams = {
+      Bucket: config.bucketName,
+      Key: file.name,
+      Body: contenidoArchivo
+    }
+    const { Location } = await client.send(new PutObjectCommand(uploadParams))
+    console.log('Archivo cargado exitosamente. Ubicación:', Location);
+    
+    const parametrosHead = {
+      Bucket: config.bucketName,
+      Key: file.name,
+    };
 
+    const respuestaHead = await client.send(new HeadObjectCommand(parametrosHead));
+    const ubicacion = respuestaHead['$metadata'].httpHeaders.location;
+    console.log('Ubicación del archivo:', ubicacion);
+  };
   // crear funcion que permita subir archivos
   async uploadFile(file) {
     // crea un objeto string, el string permite dividir el archivo y subirlo a donde quieras, en este caso aws

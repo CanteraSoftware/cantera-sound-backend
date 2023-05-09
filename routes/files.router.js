@@ -60,6 +60,14 @@ router.post('/create', validatorHandler(createFilesSchema, 'body'), async (req, 
 });
 
 // post AWS S3
+router.post('/uploader', async (req, res) => {
+  // res.send(req.files.file);
+  await service.cargarFile(req.files.file)
+  // respuesta al front
+  res.json({ message: 'upload files' })
+  // console.log(res.send(req.files.file));
+});
+// post AWS S3
 router.post('/upload', async (req, res) => {
   // res.send(req.files.file);
   await service.uploadFile(req.files.file)
