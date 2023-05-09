@@ -75,16 +75,18 @@ router.post('/upload',
     console.log(res.send({ data: req.file, msg: "Exito" }));
 
     try {
-      const signedUrl = await service.downloadFile(req.body.nameFile);
-      console.log(signedUrl);
-      /* const fileUpload = await service.uploadFile(req.files.file)
-      console.log(fileUpload, 'Informacion');
+      // const fileUpload = await service.uploadFile(req.files.file)
+      // console.log(fileUpload, 'Informacion');
       const body = req.body;
+      const signedUrl = await service.downloadFile(body.nameFile);
       // Create new file
-      const file = await service.create(body)
+      const file = await service.create({
+        ...body,
+        fileUrl: signedUrl.slice(0, 90)
+      })
       // Set status "created" in JSON
       res.status(201).json(file);
-      // res.json({ message: 'upload files' }) */
+      // res.json({ message: 'upload files' })
     } catch (error) {
       next(error)
     }
