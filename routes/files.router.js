@@ -1,38 +1,65 @@
 const express = require('express')
 
-const aws = require("aws-sdk");
-const multer = require("multer");
-const { config } = require('../config/config');
-const multerS3 = require("multer-s3");
+// const aws = require("aws-sdk");
+// const multer = require("multer");
+// const { config } = require('../config/config');
+// const multerS3 = require("multer-s3");
 
 const FilesService = require('../services/files.services')
 const { createFilesSchema, getFilesSchema } = require('../schemas/files.schema')
 const validatorHandler = require('../middlewares/validator.handler')
 
-const s3 = new aws.S3({
-  accessKeyId: config.publicKey,
-  secretAccessKey: config.secretKey,
-  Bucket: config.bucketName,
-});
+// const s3 = new aws.S3({
+//   accessKeyId: config.publicKey,
+//   secretAccessKey: config.secretKey,
+//   Bucket: config.bucketName,
+// });
 
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: config.bucketName,
-    metadata: (req, file, cb) => {
-      console.log(file);
-      cb(null, { fieldName: file.originalname });
-    },
-    key: (req, file, cb) => {
-      cb(null, file.originalname);
-    },
-  }),
-});
+// const upload = multer({
+//   storage: multerS3({
+//     s3: s3,
+//     bucket: config.bucketName,
+//     metadata: (req, file, cb) => {
+//       console.log(file);
+//       cb(null, { fieldName: file.originalname });
+//     },
+//     key: (req, file, cb) => {
+//       cb(null, file.originalname);
+//     },
+//   }),
+// });
 
 const router = express.Router()
 
 const service = new FilesService()
 
+// post prueva 2
+router.post('/create', validatorHandler(createFilesSchema, 'body'), async (req, res, next) => {
+  try {
+    // res.send(req.files.file);
+    await service.uploadFile(req.files.file)
+    // respuesta al front
+    // res.json({ message: 'upload files' })
+    // console.log(req.files.file.name); prueva
+    const url = req.files.file.name;
+    const body = {
+      nameFile: req.body.nameFile,
+      nameAuthor: req.body.nameAuthor,
+      imageUrl: req.body.imageUrl,
+      fileUrl: `https://rodri-nodejs-aws.s3.sa-east-1.amazonaws.com/${url}`,
+      categoryId: req.body.categoryId,
+      genderId: req.body.genderId
+    }
+    // Create new file
+    const file = await service.create(body)
+    // Set status "created" in JSON
+    res.status(201).json(file);
+  } catch (error) {
+    next(error)
+  }
+});
+
+// post AWS S3
 router.post('/upload', async (req, res) => {
   // res.send(req.files.file);
   await service.uploadFile(req.files.file)
@@ -49,6 +76,7 @@ router.get('/upload', async (req, res) => {
   // });
   res.json(result.Contents)
 });
+
 // get URL de AWS S3
 router.get('/upload/:fileName', async (req, res) => {
   const result = await service.getFileURL(req.params.fileName);
@@ -84,6 +112,7 @@ router.get('/:id',
   }
 )
 
+// post db postgres
 router.post('/',
   validatorHandler(createFilesSchema, 'body'),
   async (req, res, next) => {

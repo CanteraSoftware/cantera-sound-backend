@@ -48,31 +48,31 @@ class FilesServices {
     return result;
   }
 
-  // crear funcion que permita obtener un archivo
-  async getFile(filename) {
-    const command = new GetObjectCommand({
-      Bucket: config.bucketName,
-      Key: filename
-    })
-    // lo envia al cliente
-    const result = await client.send(command)
-    console.log(result);
-    return result;
-  }
+  // // crear funcion que permita obtener un archivo
+  // async getFile(filename) {
+  //   const command = new GetObjectCommand({
+  //     Bucket: config.bucketName,
+  //     Key: filename
+  //   })
+  //   // lo envia al cliente
+  //   const result = await client.send(command)
+  //   console.log(result);
+  //   return result;
+  // }
 
-  // descargar el archivo
-  async downloadFile(filename) {
-    const command = new GetObjectCommand({
-      Bucket: config.bucketName,
-      Key: filename
-    })
-    // lo envia al cliente
-    const result = await client.send(command)
-    console.log(result);
-    // se va a guardar dentro de un archivo en mi backend 
-    // pipe: transmite lo del Body a otro objecto que se crea en mi backend
-    result.Body.pipe(fs.createWriteStream(`./images/${filename}`))
-  }
+  // // descargar el archivo
+  // async downloadFile(filename) {
+  //   const command = new GetObjectCommand({
+  //     Bucket: config.bucketName,
+  //     Key: filename
+  //   })
+  //   // lo envia al cliente
+  //   const result = await client.send(command)
+  //   console.log(result);
+  //   // se va a guardar dentro de un archivo en mi backend 
+  //   // pipe: transmite lo del Body a otro objecto que se crea en mi backend
+  //   result.Body.pipe(fs.createWriteStream(`./images/${filename}`))
+  // }
 
   // compartir por url
   async getFileURL(filename) {
