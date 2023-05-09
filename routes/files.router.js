@@ -72,7 +72,7 @@ router.post('/upload',
   validatorHandler(createFilesSchema, 'body'),
   async (req, res, next) => {
     // console.log(res.send(req.files.file));
-    console.log(res.send({ data: req.file, msg: "Exito" }));
+    // console.log(res.send({ data: req.file, msg: "Exito" }));
 
     try {
       // const fileUpload = await service.uploadFile(req.files.file)
