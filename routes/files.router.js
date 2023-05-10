@@ -34,12 +34,18 @@ const router = express.Router()
 const service = new FilesService()
 
 
-router.get('/upload', async (req, res) => {
-  const result = await service.getFiles()
-  // result.Contents.forEach(e => {
-  //   console.log(e.Key)
-  // });
-  res.json(result.Contents)
+router.post('/upload', upload.single('file'), (req, res) => {
+  params.Key = req.file.originalname;
+  params.Body = fs.readFileSync(req.file.path);
+
+  s3.upload(params, (err, data) => {
+    if (err) {
+      console.log('Error al subir el archivo a S3:', err);
+    } else {
+      const locationUrl = data.Location
+      res.send(`Archivo subido exitosamente a S3. URL: ${locationUrl}`);
+    }
+  });
 });
 
 router.get('/', async (req, res, next) => {
