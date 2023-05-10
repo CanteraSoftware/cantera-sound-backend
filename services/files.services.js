@@ -24,24 +24,30 @@ class FilesServices {
   // PRUEVA
   async cargarFile(file) {
     // const stream = fs.createReadStream(file.tempFilePath)
-    const contenidoArchivo = fs.readFileSync(file);
+    const contenidoArchivo = fs.readFileSync(file.tempFilePath);
     // parametros
     const uploadParams = {
       Bucket: config.bucketName,
       Key: file.name,
       Body: contenidoArchivo
     }
-    const { Location } = await client.send(new PutObjectCommand(uploadParams))
-    console.log('Archivo cargado exitosamente. Ubicación:', Location);
-    
-    const parametrosHead = {
+    await client.send(new PutObjectCommand(uploadParams))
+
+    // Obtener la ubicación del archivo
+    const headParams = {
       Bucket: config.bucketName,
-      Key: file.name,
+      Key: file.name
     };
 
-    const respuestaHead = await client.send(new HeadObjectCommand(parametrosHead));
-    const ubicacion = respuestaHead['$metadata'].httpHeaders.location;
-    console.log('Ubicación del archivo:', ubicacion);
+    // const { $metadata: { httpHeaders } } = await client.send(new HeadObjectCommand(headParams));
+    // // return location;
+    // console.log(httpHeaders)
+    const command = new GetObjectCommand(headParams)
+    // lo envia al cliente, el comando y el tiempo de espiracion en segundos
+    // return await getSignedUrl(client, command)
+    const url = await getSignedUrl(client, command)
+    const urlObj = new URL(url);
+    return urlObj.protocol + "//" + urlObj.host + urlObj.pathname;
   };
   // crear funcion que permita subir archivos
   async uploadFile(file) {

@@ -59,14 +59,31 @@ router.post('/create', validatorHandler(createFilesSchema, 'body'), async (req, 
   }
 });
 
-// post AWS S3
-router.post('/uploader', async (req, res) => {
+// post AWS S3 prueva
+router.post('/uploader', async(req, res, next) => {
   // res.send(req.files.file);
-  await service.cargarFile(req.files.file)
-  // respuesta al front
-  res.json({ message: 'upload files' })
-  // console.log(res.send(req.files.file));
+  try {
+    const url = await service.cargarFile(req.files.file)
+    // res.send({
+    //   url: result
+    // });
+    const body = {
+      nameFile: req.body.nameFile,
+      nameAuthor: req.body.nameAuthor,
+      imageUrl: req.body.imageUrl,
+      fileUrl: url,
+      categoryId: req.body.categoryId,
+      genderId: req.body.genderId
+    }
+    // Create new file
+    const file = await service.create(body)
+    // Set status "created" in JSON
+    res.status(201).json(file);
+  } catch (error) {
+    next(error)
+  }
 });
+
 // post AWS S3
 router.post('/upload', async (req, res) => {
   // res.send(req.files.file);
