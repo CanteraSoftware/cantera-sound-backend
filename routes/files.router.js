@@ -2,7 +2,7 @@ const express = require('express')
 
 const aws = require("aws-sdk");
 const multer = require("multer");
-const { config } = require('../config/config');
+const { config, pool } = require('../config/config');
 const multerS3 = require("multer-s3");
 
 const FilesService = require('../services/files.services')
@@ -69,6 +69,7 @@ router.get('/:id',
 
 
 router.post('/upload',
+  // Validate send datas
   validatorHandler(createFilesSchema, 'body'),
   async (req, res, next) => {
     // console.log(res.send(req.files.file));
@@ -77,7 +78,20 @@ router.post('/upload',
     try {
       // const fileUpload = await service.uploadFile(req.files.file)
       // console.log(fileUpload, 'Informacion');
+
+      // Require body of the user
       const body = req.body;
+      // Select name and url of file and find if this name be repite
+      const results = await pool.query('SELECT "nameFile", "fileUrl" FROM files;');
+      // Find any same values
+      const validatorConcidences = (rowFilter, nameFilter, key) => rowFilter.some(row => row[key] === nameFilter);
+      if (validatorConcidences(results.rows, body.nameFile, "nameFile") || validatorConcidences(results.rows, body.fileUrl, "fileUrl")) {
+        return res.status(409).json({
+          "statusCode": 409,
+          "error": "Conflict",
+          "message": "Conflict with same name rows"
+        });
+      }
       const signedUrl = await service.downloadFile(body.nameFile);
       // Create new file
       const file = await service.create({
