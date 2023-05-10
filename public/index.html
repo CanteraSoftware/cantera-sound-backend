@@ -6,6 +6,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <?xml version="1.0" encoding="UTF-8"?>
+  <CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+    <CORSRule>
+      <AllowedOrigin>*</AllowedOrigin>
+      <AllowedMethod>POST</AllowedMethod>
+      <AllowedMethod>GET</AllowedMethod>
+      <AllowedMethod>PUT</AllowedMethod>
+      <AllowedMethod>DELETE</AllowedMethod>
+      <AllowedMethod>HEAD</AllowedMethod>
+      <AllowedHeader>*</AllowedHeader>
+    </CORSRule>
+  </CORSConfiguration>
 </head>
 
 <body>
@@ -33,8 +45,7 @@
           ACL: 'public-read'
         }, function (err, data) {
           if (err) {
-            console.log({ 'error': err })
-            reject('error');
+            console.error({ 'error': err });
           }
           alert('Successfully Uploaded!');
         }).on('httpUploadProgress', function (progress) {
