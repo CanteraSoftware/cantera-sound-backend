@@ -74,9 +74,6 @@ router.post('/upload',
   async (req, res, next) => {
 
     try {
-      const fileUpload = await service.uploadFile(req.files.file)
-      // console.log(fileUpload, 'Informacion');
-
       // Require body of the user
       const body = req.body;
       // Select name and url of file and find if this name be repite
@@ -90,6 +87,20 @@ router.post('/upload',
           "message": "Conflict with same name rows"
         });
       }
+
+      const fileKey = JSON.parse(JSON.stringify(req.files)).file.name
+      const url = `https://${config.bucketName}.s3.${config.bucketRegion}.amazonaws.com/${fileKey}`
+
+      if (url.length > 95) {
+        return res.status(404).json({
+          "statusCode": 406,
+          "error": "Not Acceptable",
+          "message": "Url longer than expected"
+        });
+      }
+
+      const fileUpload = await service.uploadFile(req.files.file)
+      // console.log(fileUpload, 'Informacion');
 
       const downloadFile = async (fileName) => {
         try {
@@ -108,16 +119,14 @@ router.post('/upload',
         }
       };
 
-      const fileKey = JSON.parse(JSON.stringify(req.files)).file.name
       const signedUrl = await downloadFile(fileKey);
       // Create new file
       const file = await service.create({
         ...body,
-        fileUrl: signedUrl.slice(0, 90)
+        fileUrl: signedUrl
       })
       // Set status "created" in JSON
       res.status(201).json(file);
-      // res.json({ message: 'upload files' })
     } catch (error) {
       next(error)
     }
