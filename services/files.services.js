@@ -44,7 +44,6 @@ class FilesServices {
       Bucket: config.bucketName
     })
     const result = await client.send(command)
-    // console.log(result);
     return result;
   }
 
@@ -56,7 +55,6 @@ class FilesServices {
     })
     // lo envia al cliente
     const result = await client.send(command)
-    console.log(result);
     return result;
   }
 
@@ -68,12 +66,6 @@ class FilesServices {
     })
     const signedUrl = await getSignedUrl(client, command, { expiresIn: 3600 });
     return signedUrl;
-    // lo envia al cliente
-    const result = await client.send(command)
-    console.log(result);
-    // se va a guardar dentro de un archivo en mi backend 
-    // pipe: transmite lo del Body a otro objecto que se crea en mi backend
-    result.Body.pipe(fs.createWriteStream(`./images/${filename}`))
   }
 
   // DB ###########################
