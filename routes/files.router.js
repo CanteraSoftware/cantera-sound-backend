@@ -34,18 +34,12 @@ const router = express.Router()
 const service = new FilesService()
 
 
-router.post('/upload', upload.single('file'), (req, res) => {
-  params.Key = req.file.originalname;
-  params.Body = fs.readFileSync(req.file.path);
-
-  s3.upload(params, (err, data) => {
-    if (err) {
-      console.log('Error al subir el archivo a S3:', err);
-    } else {
-      const locationUrl = data.Location
-      res.send(`Archivo subido exitosamente a S3. URL: ${locationUrl}`);
-    }
-  });
+router.get('/upload', async (req, res) => {
+  const result = await service.getFiles()
+  // result.Contents.forEach(e => {
+  //   console.log(e.Key)
+  // });
+  res.json(result.Contents)
 });
 
 router.get('/', async (req, res, next) => {
@@ -82,7 +76,7 @@ router.post('/upload',
     // console.log(res.send({ data: req.file, msg: "Exito" }));
 
     try {
-      // const fileUpload = await service.uploadFile(req.files.file)
+      const fileUpload = await service.uploadFile(req.files.file)
       // console.log(fileUpload, 'Informacion');
 
       // Require body of the user
@@ -98,7 +92,26 @@ router.post('/upload',
           "message": "Conflict with same name rows"
         });
       }
-      const signedUrl = await service.downloadFile(body.nameFile);
+
+      const downloadFile = async (fileName) => {
+        try {
+          const file = await service.getFile(fileName);
+          if (!file) {
+            return res.status(404).json({
+              "statusCode": 404,
+              "error": "Not Found",
+              "message": "File not found"
+            });
+          }
+          const fileUrl = await service.downloadFile(fileName);
+          return fileUrl
+        } catch (error) {
+          next(error);
+        }
+      };
+
+      const fileKey = JSON.parse(JSON.stringify(req.files)).file.name
+      const signedUrl = await downloadFile(fileKey);
       // Create new file
       const file = await service.create({
         ...body,
