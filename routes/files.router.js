@@ -82,9 +82,18 @@ router.post('/upload',
           png: "png"
         }
 
-        const format = file.split("/")[1];
+        const musicFormat = {
+          mpeg: "mpeg",
+          mp4: "mp4",
+          aac: "aac",
+          ogg: "ogg"
+      }
 
-        return imageFormat[format];
+        const format = file.split("/");
+
+        return format[0] === "image" ? { "image": imageFormat[format[1]] } :
+              format[0] === "video" ? { "video": musicFormat[format[1]] } :
+              { "unknown": format[0] };
       }
 
       if (url.length > 95) {
@@ -99,15 +108,27 @@ router.post('/upload',
         return res.status(404).json({
           "statusCode": 406,
           "error": "Not Acceptable",
-          "message": "perrito triste"
+          "message": "File is very big. Send a image more smoll or compress the file"
         });
       }
 
-      if (!fileFilter(mimetype)) {
+      if (fileFilter(mimetype).image !== undefined && fileFilter(mimetype).image) {
         return res.status(404).json({
           "statusCode": 406,
           "error": "Not Acceptable",
           "message": "This file must be of type jpeg or png"
+        });
+      } else if (fileFilter(mimetype).video !== undefined && fileFilter(mimetype).video) {
+        return res.status(404).json({
+          "statusCode": 406,
+          "error": "Not Acceptable",
+          "message": "This file must be of type mp3, mp4, acc or ogg"
+        });
+      } else if (fileFilter(mimetype).unknown) {
+        return res.status(404).json({
+          "statusCode": 406,
+          "error": "Not Acceptable",
+          "message": `${fileFilter(mimetype).unknown} is unknown file type. Send a file of a different type`
         });
       }
 
