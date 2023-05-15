@@ -3,6 +3,3 @@ postgres_data/
 uploads/
 .env
 package-lock.json
-service.s3.js
-credenciales.json
-node_modules

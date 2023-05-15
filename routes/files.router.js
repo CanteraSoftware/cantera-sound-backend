@@ -1,9 +1,7 @@
 const express = require('express')
 
 const aws = require("aws-sdk");
-const multer = require("multer");
 const { config, pool } = require('../config/config');
-const multerS3 = require("multer-s3");
 
 const FilesService = require('../services/files.services')
 const { createFilesSchema, getFilesSchema } = require('../schemas/files.schema')
@@ -13,20 +11,6 @@ const s3 = new aws.S3({
   accessKeyId: config.publicKey,
   secretAccessKey: config.secretKey,
   Bucket: config.bucketName,
-});
-
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: config.bucketName,
-    metadata: (req, file, cb) => {
-      console.log(file);
-      cb(null, { fieldName: file.originalname });
-    },
-    key: (req, file, cb) => {
-      cb(null, file.originalname);
-    },
-  }),
 });
 
 const router = express.Router()
@@ -99,9 +83,6 @@ router.post('/upload',
         });
       }
 
-      const fileUpload = await service.uploadFile(req.files.file)
-      // console.log(fileUpload, 'Informacion');
-
       const downloadFile = async (fileName) => {
         try {
           const file = await service.getFile(fileName);
@@ -119,11 +100,14 @@ router.post('/upload',
         }
       };
 
+      const fileUpload = await service.uploadFile(req.files.file)
+      // console.log(fileUpload, 'Informacion');
       const signedUrl = await downloadFile(fileKey);
+
       // Create new file
       const file = await service.create({
         ...body,
-        fileUrl: signedUrl
+        fileUrl: url
       })
       // Set status "created" in JSON
       res.status(201).json(file);
