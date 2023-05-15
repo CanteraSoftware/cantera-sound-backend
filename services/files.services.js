@@ -23,13 +23,13 @@ const client = new S3Client({
 class FilesServices {
 
   // crear funcion que permita subir archivos
-  async uploadFile(file) {
+  async uploadFile(tempFilePath, name) {
     // crea un objeto string, el string permite dividir el archivo y subirlo a donde quieras, en este caso aws
-    const stream = fs.createReadStream(file.tempFilePath)
+    const stream = fs.createReadStream(tempFilePath)
     // parametros
     const uploadParams = {
       Bucket: config.bucketName,
-      Key: file.name,
+      Key: name,
       Body: stream
     }
     // describe las operaciones

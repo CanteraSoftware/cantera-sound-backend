@@ -72,14 +72,42 @@ router.post('/upload',
         });
       }
 
-      const fileKey = JSON.parse(JSON.stringify(req.files)).file.name
-      const url = `https://${config.bucketName}.s3.${config.bucketRegion}.amazonaws.com/${fileKey}`
+      const files = JSON.parse(JSON.stringify(req.files));
+      const { name, size, mimetype } = files.file || files.fileUrl;
+      const url = `https://${config.bucketName}.s3.${config.bucketRegion}.amazonaws.com/${name}`;
+
+      const fileFilter = file => {
+        const imageFormat = {
+          jpeg: "jpeg",
+          png: "png"
+        }
+
+        const format = file.split("/")[1];
+
+        return imageFormat[format];
+      }
 
       if (url.length > 95) {
         return res.status(404).json({
           "statusCode": 406,
           "error": "Not Acceptable",
           "message": "Url longer than expected"
+        });
+      }
+
+      if ((size / 1024).toFixed(2) > 9000) {
+        return res.status(404).json({
+          "statusCode": 406,
+          "error": "Not Acceptable",
+          "message": "perrito triste"
+        });
+      }
+
+      if (!fileFilter(mimetype)) {
+        return res.status(404).json({
+          "statusCode": 406,
+          "error": "Not Acceptable",
+          "message": "This file must be of type jpeg or png"
         });
       }
 
@@ -100,9 +128,10 @@ router.post('/upload',
         }
       };
 
-      const fileUpload = await service.uploadFile(req.files.file)
-      // console.log(fileUpload, 'Informacion');
-      const signedUrl = await downloadFile(fileKey);
+      const fileUpload = await service.uploadFile(tempFilePath, name)
+      // fileUpload.$metadata.requestId have a innuque Id, possible finale of url
+
+      const signedUrl = await downloadFile(name);
 
       // Create new file
       const file = await service.create({
