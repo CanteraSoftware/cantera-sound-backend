@@ -70,7 +70,7 @@ router.post('/upload',
         "ogg"
       ]
 
-      const commaSeparator = format => `${Object.keys(format).slice(0, format.length-2).join(', ')} or ${format.length-1}`
+      const commaSeparator = format => `${format.slice(0, format.length-1).join(', ')} or ${format[format.length-1]}`
 
       const errorStatus = {
           conflict: "Conflict",
@@ -129,9 +129,9 @@ router.post('/upload',
       }
 
       const filterResult = fileFilter(mimetype);
-      if (filterResult.image !== undefined && filterResult.image) {
+      if (filterResult.image !== undefined && !filterResult.image) {
         return returnError(406, errorStatus.notAcceptable, errorMessage.invalidImageType);
-      } else if (filterResult.video !== undefined && filterResult.video) {
+      } else if (filterResult.video !== undefined && !filterResult.video) {
         return returnError(406, errorStatus.notAcceptable, errorMessage.video);
       } else if (filterResult.unknown) {
         return returnError(406, errorStatus.notAcceptable, errorMessage.unknownFileType);
@@ -174,11 +174,16 @@ router.delete('/:id',
     try {
       const { id } = req.params;
       // Delete file by ID
-      await service.delete(id)
+      await service.delete(id);
       // Set status "ok" in JSON
       res.status(200).json({ id })
     } catch (error) {
-      next(error)
+      next(error);
+      return res.status(404).json({
+        statusCode: 404,
+        error: "Not Found",
+        message: "Error, the id is invalidate. Send again id of a different"
+      });
     }
   }
 )
