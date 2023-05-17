@@ -1,13 +1,13 @@
-const boom = require('@hapi/boom');
+const boom = require("@hapi/boom");
 
-const { models } = require('../libs/sequelize');
+const { models } = require("../libs/sequelize");
 
 // S3 ###########################
-const { S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand } = require('@aws-sdk/client-s3')
+const {S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
 // modulo para poder trabajar con archivos de node
-const fs = require('fs')
+const fs = require("fs");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-const { config } = require('../config/config');
+const { config } = require("../config/config");
 
 // connection aws
 const client = new S3Client({
@@ -15,35 +15,34 @@ const client = new S3Client({
   credentials: {
     accessKeyId: config.publicKey,
     secretAccessKey: config.secretKey,
-  }
-})
+  },
+});
 
 // DB ###########################
 
 class FilesServices {
-
   // crear funcion que permita subir archivos
   async uploadFile(tempFilePath, name) {
     // crea un objeto string, el string permite dividir el archivo y subirlo a donde quieras, en este caso aws
-    const stream = fs.createReadStream(tempFilePath)
+    const stream = fs.createReadStream(tempFilePath);
     // parametros
     const uploadParams = {
       Bucket: config.bucketName,
       Key: name,
       Body: stream
-    }
+    };
     // describe las operaciones
-    const command = new PutObjectCommand(uploadParams)
-    const result = await client.send(command)
-    return result
+    const command = new PutObjectCommand(uploadParams);
+    const result = await client.send(command);
+    return result;
   }
 
   // crear funcion que permita obtener archivos
   async getFiles() {
     const command = new ListObjectsCommand({
       Bucket: config.bucketName
-    })
-    const result = await client.send(command)
+    });
+    const result = await client.send(command);
     return result;
   }
 
@@ -52,9 +51,9 @@ class FilesServices {
     const command = new GetObjectCommand({
       Bucket: config.bucketName,
       Key: filename
-    })
+    });
     // lo envia al cliente
-    const result = await client.send(command)
+    const result = await client.send(command);
     return result;
   }
 
@@ -63,7 +62,7 @@ class FilesServices {
     const command = new GetObjectCommand({
       Bucket: config.bucketName,
       Key: filename
-    })
+    });
     const signedUrl = await getSignedUrl(client, command, { expiresIn: 3600 });
     return signedUrl;
   }
@@ -73,8 +72,8 @@ class FilesServices {
   // Create new file
   async create(data) {
     const newFiles = await models.Files.create({
-      ...data,
-    })
+      ...data
+    });
     return newFiles;
   }
 
@@ -87,10 +86,9 @@ class FilesServices {
 
   // Find file by ID
   async findOne(id) {
-    const file = await models.Files.findByPk(id)
+    const file = await models.Files.findByPk(id);
     return file;
   }
-
 
   // Delete file by ID
   // ATTENTION

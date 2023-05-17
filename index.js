@@ -1,26 +1,26 @@
-const express = require('express');
-const cors = require('cors');
-const routerApi = require('./routes');
+const express = require("express");
+const cors = require("cors");
+const routerApi = require("./routes");
 // prueba
-const fileUpload = require('express-fileupload');
-const bodyParser = require('body-parser');
+const fileUpload = require("express-fileupload");
+const bodyParser = require("body-parser");
 
-
-
-const { logErrors, errorHandler, boomErrorHandler, ormErrorHandler } = require('./middlewares/error.handler');
+const { logErrors, errorHandler, boomErrorHandler, ormErrorHandler } = require("./middlewares/error.handler");
 
 const app = express();
 const port = process.env.PORT || 2000;
 
 // prueba
-app.use(fileUpload({
-  //para utilizar los archivos que se encuentran aqui mismo
-  useTempFiles: true,
-  // donde se va guardar
-  tempFileDir: './uploads'
-}));
+app.use(
+  fileUpload({
+    //para utilizar los archivos que se encuentran aqui mismo
+    useTempFiles: true,
+    // donde se va guardar
+    tempFileDir: "./uploads",
+  })
+);
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -29,7 +29,7 @@ app.use(express.json());
 
 app.use(cors());
 
-routerApi(app)
+routerApi(app);
 
 app.use(logErrors);
 app.use(ormErrorHandler);
@@ -38,4 +38,4 @@ app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Mi port ${port}`);
-})
+});

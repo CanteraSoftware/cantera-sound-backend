@@ -1,5 +1,5 @@
-require('dotenv').config();
-const { Pool } = require('pg');
+require("dotenv").config();
+const { Pool } = require("pg");
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -7,14 +7,14 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
   port: 5432
 });
-process.on('beforeExit', () => {
+process.on("beforeExit", () => {
   pool.end();
-  console.log('Connection pool closed');
+  console.log("Connection pool closed");
 });
 
 const config = {
-  env: process.env.NODE_ENV || 'dev',
-  isProd: process.env.NODE_ENV === 'production',
+  env: process.env.NODE_ENV || "dev",
+  isProd: process.env.NODE_ENV === "production",
   port: process.env.PORT || 2000,
   dbUrl: process.env.DATABASE_URL,
   //
@@ -23,6 +23,6 @@ const config = {
   publicKey: process.env.AWS_PUBLIC_KEY,
   secretKey: process.env.AWS_SECRET_KEY,
   apiKey: process.env.API_KEY
-}
+};
 
 module.exports = { config, pool };

@@ -1,13 +1,13 @@
-const boom = require('@hapi/boom');
+const boom = require("@hapi/boom");
 
-const { models } = require('../libs/sequelize');
+const { models } = require("../libs/sequelize");
 
 class GendersServices {
   // Create new gender
   async create(data) {
     const newGenders = await models.Genders.create({
-      ...data,
-    })
+      ...data
+    });
     return newGenders;
   }
 
@@ -19,7 +19,7 @@ class GendersServices {
 
   // Find gender by ID
   async findOne(id) {
-    const gender = await models.Genders.findByPk(id)
+    const gender = await models.Genders.findByPk(id);
     return gender;
   }
 

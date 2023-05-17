@@ -1,81 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <?xml version="1.0" encoding="UTF-8"?>
+    <CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+      <CORSRule>
+        <AllowedOrigin>*</AllowedOrigin>
+        <AllowedMethod>POST</AllowedMethod>
+        <AllowedMethod>GET</AllowedMethod>
+        <AllowedMethod>PUT</AllowedMethod>
+        <AllowedMethod>DELETE</AllowedMethod>
+        <AllowedMethod>HEAD</AllowedMethod>
+        <AllowedHeader>*</AllowedHeader>
+      </CORSRule>
+    </CORSConfiguration>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <?xml version="1.0" encoding="UTF-8"?>
-  <CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
-    <CORSRule>
-      <AllowedOrigin>*</AllowedOrigin>
-      <AllowedMethod>POST</AllowedMethod>
-      <AllowedMethod>GET</AllowedMethod>
-      <AllowedMethod>PUT</AllowedMethod>
-      <AllowedMethod>DELETE</AllowedMethod>
-      <AllowedMethod>HEAD</AllowedMethod>
-      <AllowedHeader>*</AllowedHeader>
-    </CORSRule>
-  </CORSConfiguration>
-</head>
-
-<body>
-  <div id="container1">
-    <h2>API test</h2>
-  </div>
-  <div>
-    <input type="file" id="fileUpload">
-  </div>
-  <div>
-    <button onclick="s3upload()">Submit</button>
-  </div>
-  <progress max=”100” value=”0”></progress>
-  <script type="text/javascript">
-    function s3upload() {
-      var files = document.getElementById('fileUpload').files;
-      if (files) {
-        var file = files[0];
-        var fileName = file.name;
-        var filePath = 'my-first-bucket-path/' + fileName;
-        var fileUrl = 'https://' + bucketRegion + '.amazonaws.com/my-    first-bucket/' + filePath;
-        s3.upload({
-          Key: filePath,
-          Body: file,
-          ACL: 'public-read'
-        }, function (err, data) {
-          if (err) {
-            console.error({ 'error': err });
-          }
-          alert('Successfully Uploaded!');
-        }).on('httpUploadProgress', function (progress) {
-          var uploaded = parseInt((progress.loaded * 100) / progress.total);
-          $("progress").attr('value', uploaded);
-        });
+  <body>
+    <div id="container1">
+      <h2>API test</h2>
+    </div>
+    <div>
+      <input type="file" id="fileUpload" />
+    </div>
+    <div>
+      <button onclick="s3upload()">Submit</button>
+    </div>
+    <progress max="”100”" value="”0”"></progress>
+    <script type="text/javascript">
+      function s3upload() {
+        var files = document.getElementById("fileUpload").files;
+        if (files) {
+          var file = files[0];
+          var fileName = file.name;
+          var filePath = "my-first-bucket-path/" + fileName;
+          var fileUrl =
+            "https://" +
+            bucketRegion +
+            ".amazonaws.com/my-    first-bucket/" +
+            filePath;
+          s3.upload(
+            {
+              Key: filePath,
+              Body: file,
+              ACL: "public-read",
+            },
+            function (err, data) {
+              if (err) {
+                console.error({ error: err });
+              }
+              alert("Successfully Uploaded!");
+            }
+          ).on("httpUploadProgress", function (progress) {
+            var uploaded = parseInt((progress.loaded * 100) / progress.total);
+            $("progress").attr("value", uploaded);
+          });
+        }
       }
-    };
-  </script>
-  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.24.min.js"></script>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script type="text/javascript">
-    //Bucket Configurations
-    var bucketName = BUCKET_NAME;
-    var bucketRegion = BUCKET_REGION;
-    var IdentityPoolId = IDENTITY_POOL_ID;
+    </script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.24.min.js"></script>
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+    ></script>
+    <script type="text/javascript">
+      //Bucket Configurations
+      var bucketName = BUCKET_NAME;
+      var bucketRegion = BUCKET_REGION;
+      var IdentityPoolId = IDENTITY_POOL_ID;
 
-    AWS.config.update({
-      region: bucketRegion,
-      credentials: new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: IdentityPoolId
-      })
-    });
+      AWS.config.update({
+        region: bucketRegion,
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: IdentityPoolId,
+        }),
+      });
 
-    var s3 = new AWS.S3({
-      apiVersion: '2006-03-01',
-      params: { Bucket: bucketName }
-    });
-  </script>
-  <script src="./index.js"></script>
-</body>
-
+      var s3 = new AWS.S3({
+        apiVersion: "2006-03-01",
+        params: { Bucket: bucketName },
+      });
+    </script>
+    <script src="./index.js"></script>
+  </body>
 </html>

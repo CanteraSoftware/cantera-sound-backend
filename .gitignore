@@ -1,5 +1,4 @@
 node_modules/
 postgres_data/
-uploads/
 .env
 package-lock.json
