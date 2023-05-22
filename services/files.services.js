@@ -1,12 +1,20 @@
-const boom = require('@hapi/boom');
+const boom = require("@hapi/boom");
 
-const { models } = require('../libs/sequelize');
+const { models } = require("../libs/sequelize");
 
 // S3 ###########################
+<<<<<<< HEAD
 const { S3Client, PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3')
 const fs = require('fs')
 const { getSignedUrl } = require('@aws-sdk/s3-request-presigner')
 const { config } = require('../config/config');
+=======
+const {S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
+// modulo para poder trabajar con archivos de node
+const fs = require("fs");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const { config } = require("../config/config");
+>>>>>>> 86c1c1fd1682b39bb32f3f80c9be57e8ca610500
 
 // connection aws
 const client = new S3Client({
@@ -14,8 +22,8 @@ const client = new S3Client({
   credentials: {
     accessKeyId: config.publicKey,
     secretAccessKey: config.secretKey,
-  }
-})
+  },
+});
 
 class FilesServices {
 

@@ -1,4 +1,9 @@
-const express = require('express')
+// Import framework for Node.js
+const express = require("express");
+// Import the configuration of the db
+const { config, pool } = require("../config/config");
+// Import the logic of manipulate of files
+const FilesService = require("../services/files.services");
 
 const FilesService = require('../services/files.services')
 const { getFilesSchema } = require('../schemas/files.schema')
@@ -40,10 +45,9 @@ router.get('/', async (req, res, next) => {
     const file = await service.find()
     res.json(file)
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
-)
+});
 
 // get DB postgres
 router.get('/:id',
@@ -54,10 +58,10 @@ router.get('/:id',
       const file = await service.findOne(id);
       res.json(file)
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
-)
+);
 
 router.delete('/:id',
   validatorHandler(getFilesSchema, 'params'),
@@ -65,13 +69,19 @@ router.delete('/:id',
     try {
       const { id } = req.params;
       // Delete file by ID
-      await service.delete(id)
+      await service.delete(id);
       // Set status "ok" in JSON
-      res.status(200).json({ id })
+      res.status(200).json({ id });
     } catch (error) {
-      next(error)
+      next(error);
+      return res.status(404).json({
+        statusCode: 404,
+        error: "Not Found",
+        message: "Error, the id is invalidate. Send again id of a different",
+      });
     }
   }
-)
+);
 
-module.exports = router
+// Export router for used elsewhere
+module.exports = router;
