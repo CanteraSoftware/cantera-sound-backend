@@ -13,7 +13,6 @@ npm i
  npm run dev
 
 
-
 //Datos adicionales
 ## ver que contenedor esta corriendo
 docker ps
@@ -27,7 +26,7 @@ docker inspect ab912ffc58fd
 c@nteraSOund
 
 ip
-18.117.98.49:2000
+18.117.98.49:5000
 
 {
 		"nameFile": "PLAYAMANE x Nateki - MIDNIGHT",
@@ -36,4 +35,4 @@ ip
 		"fileUrl": "https://rodri-nodejs-aws.s3.sa-east-1.amazonaws.com/midnight.mp3",
 		"categoryId": 1,
 		"genderId": 6
-	}
+	} 

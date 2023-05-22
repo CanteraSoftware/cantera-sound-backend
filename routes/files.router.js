@@ -1,51 +1,43 @@
 const express = require('express')
 
-const aws = require("aws-sdk");
-const multer = require("multer");
-const { config } = require('../config/config');
-const multerS3 = require("multer-s3");
-
 const FilesService = require('../services/files.services')
-const { createFilesSchema, getFilesSchema } = require('../schemas/files.schema')
+const { getFilesSchema } = require('../schemas/files.schema')
 const validatorHandler = require('../middlewares/validator.handler')
 
-const s3 = new aws.S3({
-  accessKeyId: config.publicKey,
-  secretAccessKey: config.secretKey,
-  Bucket: config.bucketName,
-});
-
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: config.bucketName,
-    metadata: (req, file, cb) => {
-      console.log(file);
-      cb(null, { fieldName: file.originalname });
-    },
-    key: (req, file, cb) => {
-      cb(null, file.originalname);
-    },
-  }),
-});
-
 const router = express.Router()
-
 const service = new FilesService()
 
+// post AWS S3 prueva
+router.post('/upload',
+  async (req, res, next) => {
+    try {
+      const url = await service.cargarFile(req.files.file)
+      const image = "https://cdn.icon-icons.com/icons2/3063/PNG/512/blueray_disc_cd_dvd_icon_190837.png"
+      const name = req.body.nameFile
+      //
+      const body = {
+        nameFile: name,
+        nameAuthor: req.body.nameAuthor,
+        imageUrl: image,
+        fileUrl: url,
+        categoryId: req.body.categoryId,
+        genderId: req.body.genderId
+      }
+      // Create new file
+      const file = await service.create(body)
+      // Set status "created" in JSON
+      res.status(201).json(file);
+    } catch (error) {
+      next(error)
+    }
+  }
+);
 
-router.get('/upload', async (req, res) => {
-  const result = await service.getFiles()
-  // result.Contents.forEach(e => {
-  //   console.log(e.Key)
-  // });
-  res.json(result.Contents)
-});
 
+// get DB postgres
 router.get('/', async (req, res, next) => {
   try {
     const file = await service.find()
-    // Call all file and transform to JSON
     res.json(file)
   } catch (error) {
     next(error)
@@ -53,40 +45,19 @@ router.get('/', async (req, res, next) => {
 }
 )
 
+// get DB postgres
 router.get('/:id',
   validatorHandler(getFilesSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const file = await service.findOne(id);
-      // Call specific file by ID and transform to JSON
       res.json(file)
     } catch (error) {
       next(error)
     }
   }
 )
-
-
-router.post('/upload',
-  validatorHandler(createFilesSchema, 'body'),
-  async (req, res, next) => {
-    // console.log(res.send(req.files.file));
-
-    try {
-      const fileUpload = await service.uploadFile(req.files.file)
-      console.log(fileUpload, 'Informacion');
-      const body = req.body;
-      // Create new file
-      const file = await service.create(body)
-      // Set status "created" in JSON
-      res.status(201).json(file);
-      // res.json({ message: 'upload files' })
-    } catch (error) {
-      next(error)
-    }
-  });
-
 
 router.delete('/:id',
   validatorHandler(getFilesSchema, 'params'),

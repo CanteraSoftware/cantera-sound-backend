@@ -3,4 +3,5 @@ postgres_data/
 postgres_data
 .env
 package-lock.json
-service.s3.js
+uploads/
+node_modules

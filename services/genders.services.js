@@ -19,16 +19,17 @@ class GendersServices {
 
   // Find gender by ID
   async findOne(id) {
-    const gender = await models.Genders.findByPk(id)
+    const gender = await models.Genders.findByPk(id, {
+      include: ['files']
+    })
     return gender;
   }
 
-  // Update gender by ID whit new changes
-  // async update(id, changes) {
-  //   const gender = await this.findOne(id)
-  //   const rta = await gender.update(changes)
-  //   return rta;
-  // }
+  async update(id, changes) {
+    const gender = await this.findOne(id);
+    const rta = await gender.update(changes);
+    return rta;
+  }
 
   // Delete gender by ID
   // ATTENTION

@@ -52,6 +52,7 @@ module.exports = {
       fileUrl: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
+        unique: true,
       },
       categoryId: {
         field: 'category_id',
