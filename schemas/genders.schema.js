@@ -7,9 +7,13 @@ const createGendersSchema = Joi.object({
   nameGender: nameGender.required()
 })
 
+const updateGendersSchema = Joi.object({
+  nameGender: nameGender
+});
+
 const getGendersSchema = Joi.object({
   id: id.required()
 })
 
 
-module.exports = { createGendersSchema, getGendersSchema }
+module.exports = { createGendersSchema, updateGendersSchema, getGendersSchema }

@@ -27,6 +27,7 @@ const FilesSchema = {
   fileUrl: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
   categoryId: {
     field: 'category_id',
@@ -54,9 +55,7 @@ const FilesSchema = {
 
 class Files extends Model {
   static associate(models) {
-    //ACA SE SOLUCIONO EL ERROR
-    // this.hasOne(models.Categories, { as: 'categories' });
-    // this.hasMany(models.Genders, { as: 'genders' });
+    //
   }
   static config(sequelize) {
     return {

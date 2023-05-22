@@ -1,7 +1,7 @@
 node_modules/
 postgres_data/
+postgres_data
 .env
 package-lock.json
-service.s3.js
-node_modules
 uploads/
+node_modules

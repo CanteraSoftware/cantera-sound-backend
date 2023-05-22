@@ -3,10 +3,9 @@ const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
 
 // S3 ###########################
-const { S3Client, PutObjectCommand, ListObjectsCommand, GetObjectCommand } = require('@aws-sdk/client-s3')
-// modulo para poder trabajar con archivos de node
+const { S3Client, PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3')
 const fs = require('fs')
-// import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner')
 const { config } = require('../config/config');
 
 // connection aws
@@ -18,88 +17,68 @@ const client = new S3Client({
   }
 })
 
-// DB ###########################
-
 class FilesServices {
 
-  // crear funcion que permita subir archivos
-  async uploadFile(file) {
-    // crea un objeto string, el string permite dividir el archivo y subirlo a donde quieras, en este caso aws
-    const stream = fs.createReadStream(file.tempFilePath)
+  // DB ###########################
+  // crear funcion que permita subir archivos y obtener url
+  async cargarFile(file) {
+    // const stream = fs.createReadStream(file.tempFilePath)
+    const contenidoArchivo = fs.readFileSync(file.tempFilePath);
     // parametros
     const uploadParams = {
       Bucket: config.bucketName,
       Key: file.name,
-      Body: stream
+      Body: contenidoArchivo
     }
-    // describe las operaciones
-    const command = new PutObjectCommand(uploadParams)
-    const result = await client.send(command)
-    console.log(result);
-  }
+    await client.send(new PutObjectCommand(uploadParams))
 
-  // crear funcion que permita obtener archivos
-  async getFiles() {
-    const command = new ListObjectsCommand({
-      Bucket: config.bucketName
-    })
-    const result = await client.send(command)
-    // console.log(result);
-    return result;
-  }
-
-  // crear funcion que permita obtener un archivo
-  async getFile(filename) {
-    const command = new GetObjectCommand({
+    // Obtener la ubicación del archivo
+    const headParams = {
       Bucket: config.bucketName,
-      Key: filename
-    })
-    // lo envia al cliente
-    const result = await client.send(command)
-    console.log(result);
-    return result;
-  }
+      Key: file.name
+    };
+    const command = new GetObjectCommand(headParams)
+    const url = await getSignedUrl(client, command)
+    const urlObj = new URL(url);
+    return urlObj.protocol + "//" + urlObj.host + urlObj.pathname;
+  };
 
-  // descargar el archivo
-  async downloadFile(filename) {
-    const command = new GetObjectCommand({
-      Bucket: config.bucketName,
-      Key: filename
-    })
-    // lo envia al cliente
-    const result = await client.send(command)
-    console.log(result);
-    // se va a guardar dentro de un archivo en mi backend 
-    // pipe: transmite lo del Body a otro objecto que se crea en mi backend
-    result.Body.pipe(fs.createWriteStream(`./images/${filename}`))
-  }
-
-  // DB ###########################
-
-  // Create new file
+  // Prueba Create DB
   async create(data) {
-    const newFiles = await models.Files.create({
-      ...data,
-    })
-    return newFiles;
+    const nameFile = await models.Files.findOne({
+      where: {
+        nameFile: data.nameFile
+      }
+    });
+    const nameAuthor = await models.Files.findOne({
+      where: {
+        nameAuthor: data.nameAuthor
+      }
+    });
+
+    if (nameFile && nameAuthor) {
+      throw boom.badGateway('The file already exists')
+    } else {
+      const newFiles = await models.Files.create({
+        ...data,
+      })
+      return newFiles;
+    }
   }
 
   // Find all files
   async find() {
     const files = await models.Files.findAll();
-
     return files;
   }
 
   // Find file by ID
   async findOne(id) {
-    const file = await models.Files.findByPk(id)
+    const file = await models.Files.findByPk(id);
     return file;
   }
 
-
   // Delete file by ID
-  // ATTENTION
   async delete(id) {
     const file = await this.findOne(id);
     await file.destroy();

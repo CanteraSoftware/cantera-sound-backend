@@ -17,14 +17,14 @@ class CategoriesServices {
     return categories;
   }
 
-  // Find category by ID                                   
+  // Find category by ID
+  async findOne(id) {
+    const category = await models.Categories.findByPk(id, {
+      include: ['files']
+    })
+    return category;
+  }
 
-  // Update category by ID whit new changes
-  // async update(id, changes) {
-  //   const category = await this.findOne(id)
-  //   const rta = await category.update(changes)
-  //   return rta;
-  // }
 
   // Delete category by ID
   // ATTENTION
