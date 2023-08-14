@@ -14,24 +14,23 @@ router.get('/', async (req, res, next) => {
     const gender = await service.find()
     res.json(gender)
   } catch (error) {
-    next(error);
+    next(error)
   }
 }
 )
 
-router.get("/:id",
-  // Validate send datas
-  validatorHandler(getGendersSchema, "params"),
+router.get('/:id',
+  validatorHandler(getGendersSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const gender = await service.findOne(id);
       res.json(gender)
     } catch (error) {
-      next(error);
+      next(error)
     }
   }
-);
+)
 
 router.post('/',
   validatorHandler(createGendersSchema, 'body'),
@@ -41,10 +40,10 @@ router.post('/',
       const newCategory = await service.create(body)
       res.status(201).json(newCategory);
     } catch (error) {
-      next(error);
+      next(error)
     }
   }
-);
+)
 
 router.post('/file',
   validatorHandler(createGendersSchema, 'body'),
@@ -74,24 +73,17 @@ router.patch('/:id',
   }
 );
 
-router.delete("/:id",
-  // Validate send datas
-  validatorHandler(getGendersSchema, "params"),
+router.delete('/:id',
+  validatorHandler(getGendersSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       await service.delete(id)
       res.status(200).json({ id })
     } catch (error) {
-      next(error);
-      return res.status(404).json({
-        statusCode: 404,
-        error: "Not Found",
-        message: "Error, the id is invalidate. Send again id of a different",
-      });
+      next(error)
     }
   }
-);
+)
 
-// Export router for used elsewhere
-module.exports = router;
+module.exports = router

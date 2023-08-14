@@ -1,8 +1,8 @@
 'use strict';
 
-const { CATEGORIES_TABLE } = require('./../models/categories.model');
-const { GENDERS_TABLE } = require('../models/genders.model');
-const { FILES_TABLE } = require('./../models/files.model');
+const { CATEGORIES_TABLE } = require('./../models/categories.model')
+const { GENDERS_TABLE } = require('../models/genders.model')
+const { FILES_TABLE } = require('./../models/files.model')
 
 module.exports = {
   async up(queryInterface, Sequelize) {

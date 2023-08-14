@@ -21,7 +21,7 @@ app.use(express.json());
 
 app.use(cors());
 
-routerApi(app);
+routerApi(app)
 
 app.use(logErrors);
 app.use(ormErrorHandler);
@@ -30,4 +30,4 @@ app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Mi port ${port}`);
-});
+})

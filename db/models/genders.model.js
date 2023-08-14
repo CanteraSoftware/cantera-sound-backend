@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 
-const GENDERS_TABLE = 'genders';
+const GENDERS_TABLE = 'genders'
 
 const GendersSchema = {
   id: {

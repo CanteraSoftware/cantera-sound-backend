@@ -1,13 +1,13 @@
-const boom = require("@hapi/boom");
+const boom = require('@hapi/boom');
 
-const { models } = require("../libs/sequelize");
+const { models } = require('../libs/sequelize');
 
 class GendersServices {
   // Create new gender
   async create(data) {
     const newGenders = await models.Genders.create({
-      ...data
-    });
+      ...data,
+    })
     return newGenders;
   }
 

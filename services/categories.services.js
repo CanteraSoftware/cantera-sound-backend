@@ -1,13 +1,13 @@
-const boom = require("@hapi/boom");
+const boom = require('@hapi/boom');
 
-const { models } = require("../libs/sequelize");
+const { models } = require('../libs/sequelize');
 
 class CategoriesServices {
   // Create new category
   async create(data) {
     const newCategories = await models.Categories.create({
-      ...data
-    });
+      ...data,
+    })
     return newCategories;
   }
 
@@ -32,6 +32,13 @@ class CategoriesServices {
     const category = await this.findOne(id);
     await category.destroy();
     return { id };
+  }
+
+  // Find any same values
+  async validatorConcidences() {
+    const categories = await models.Categories.findAll();
+    console.log(categories)
+    // return categories;
   }
 }
 

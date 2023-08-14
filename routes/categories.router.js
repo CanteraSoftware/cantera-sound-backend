@@ -14,23 +14,23 @@ router.get('/', async (req, res, next) => {
     const category = await service.find()
     res.json(category)
   } catch (error) {
-    next(error);
+    next(error)
   }
-});
+}
+)
 
-router.get("/:id",
-  // Validate send datas
-  validatorHandler(getCategoriesSchema, "params"),
+router.get('/:id',
+  validatorHandler(getCategoriesSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const category = await service.findOne(id);
       res.json(category)
     } catch (error) {
-      next(error);
+      next(error)
     }
   }
-);
+)
 
 router.post('/',
   validatorHandler(createCategoriesSchema, 'body'),
@@ -45,38 +45,31 @@ router.post('/',
   }
 )
 
-router.post('/file',
-  validatorHandler(createCategoriesSchema, 'body'),
-  async (req, res, next) => {
-    try {
-      const body = req.body;
-      const newCategory = await service.create(body)
-      res.status(201).json(newCategory);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
+// router.post('/file',
+//   validatorHandler(createCategoriesSchema, 'body'),
+//   async (req, res, next) => {
+//     try {
+//       const body = req.body;
+//       const newCategory = await service.create(body)
+//       res.status(201).json(newCategory);
+//     } catch (error) {
+//       next(error)
+//     }
+//   }
+// )
 
 
-router.delete("/:id",
-  // Validate send datas
-  validatorHandler(getCategoriesSchema, "params"),
+router.delete('/:id',
+  validatorHandler(getCategoriesSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       await service.delete(id)
       res.status(200).json({ id })
     } catch (error) {
-      next(error);
-      return res.status(404).json({
-        statusCode: 404,
-        error: "Not Found",
-        message: "Error, the id is invalidate. Send again id of a different",
-      });
+      next(error)
     }
   }
-);
+)
 
-// Export router for used elsewhere
-module.exports = router;
+module.exports = router
